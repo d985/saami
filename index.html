@@ -150,6 +150,23 @@
             transform: scale(1);
         }
 
+        /* --- Completely Transparent Mobile Backdrop Layer --- */
+        .menu-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: transparent; 
+            pointer-events: none; 
+            z-index: 140; 
+        }
+
+        /* Toggled on via JavaScript when menu opens */
+        .menu-backdrop.active {
+            pointer-events: auto; 
+        }
+
         /* --- Section Containers --- */
         
         /* Layout scaffolding for full-screen content panels */
@@ -165,8 +182,17 @@
             z-index: 10;
         }
 
-        /* Clean transparent content panels inheriting your 40% overlay configuration */
-        section::before {
+        /* --- Home Section Background & Overlay Configurations --- */
+        #home {
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: scroll; 
+        }
+
+        /* Keeps your 40% overlay tint isolated strictly to the background image container */
+        #home::before {
             content: '';
             position: absolute;
             top: 0;
@@ -175,15 +201,6 @@
             height: 100%;
             background-color: rgba(254, 246, 235, 0.4); 
             z-index: -1; 
-        }
-
-        /* --- Home Section Background Configurations --- */
-        #home {
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: scroll; 
         }
 
         /* Content block wrapping layout */
@@ -285,24 +302,21 @@
 
         /* --- Responsive Mobile Breakpoint Settings --- */
         @media (max-width: 768px) {
-            /* Tightened header bounds so structural margins don't swallow phone widths */
             header {
                 padding: 0 1rem; 
             }
 
-            /* Brought logos closer together on mobile view screens */
             .header-logo {
                 gap: 0.2rem;
             }
 
-            /* Responsive Scaling: Decreases asset dimension footprints on mobile devices */
-            .header-logo img {
-                height: 32px; 
-            }
-
-            /* Keeps alignment balanced relative to the new reduced image base scales */
+            /* Responsive Specificity Override Forcing Logo Resizing Actions */
             .header-logo > img {
-                transform: translateY(1px); 
+                height: 28px !important; 
+                transform: translateY(1px);
+            }
+            .header-logo a img {
+                height: 28px !important;
             }
 
             /* Loads lightweight portrait image variant only inside the mobile home view area */
@@ -331,7 +345,7 @@
                 padding: 2rem;
                 box-shadow: -5px 0 25px rgba(0, 0, 0, 0.08);
                 transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-                z-index: 150;
+                z-index: 150; 
             }
 
             header nav ul.active {
@@ -357,6 +371,8 @@
     </style>
 </head>
 <body>
+
+    <div class="menu-backdrop"></div>
 
     <header>
         <div class="header-logo">
@@ -425,19 +441,28 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.getElementById('nav-menu');
         const navLinks = document.querySelectorAll('#nav-menu a');
+        const menuBackdrop = document.querySelector('.menu-backdrop');
 
-        // Toggle mobile drawer layout on hamburger click
+        // Combined close function layout rule helper
+        const closeMenu = () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            menuBackdrop.classList.remove('active');
+        };
+
+        // Toggle mobile drawer layout and backdrop on hamburger click
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
+            menuBackdrop.classList.toggle('active');
         });
 
-        // Auto-close menu drawer when clicking a link
+        // Close menu panel when clicking the backdrop overlay (outside the menu area)
+        menuBackdrop.addEventListener('click', closeMenu);
+
+        // Auto-close menu drawer when clicking a link option
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
+            link.addEventListener('click', closeMenu);
         });
     </script>
 
