@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>saami</title>
+    
+    <style>
+        /* Custom Font Declaration configured to use TTF format */
+        @font-face {
+            font-family: 'Latienne Swash T';
+            src: url('fonts/latienne-swash-t-regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Reset defaults and prevent scrollbars */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #ffffff;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            
+            /* Background color fallback */
+            background-color: #fef6eb; 
+            
+            /* Background image rendered with native opacity settings */
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Transparent layout layer sitting cleanly in front of the background image */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 65px; 
+            left: 0;
+            width: 100%;
+            height: calc(100% - 65px); 
+            /* Overlay opacity lightened from 0.7 to 0.4 to be more transparent */
+            background-color: rgba(254, 246, 235, 0.4); 
+            z-index: 1; 
+        }
+
+        /* Header Bar: Solid background color with no transparency effects */
+        header {
+            width: 100%;
+            height: 65px; 
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            position: relative;
+            z-index: 10; 
+            
+            background-color: #fef6eb; 
+        }
+
+        /* Groups the main logo and logo1 side-by-side */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem; 
+        }
+
+        /* Prepares the logo-icon anchor link for transition movement */
+        .header-logo a {
+            display: block;
+            transition: transform 0.2s ease; /* Smooth transformation movement */
+        }
+
+        /* Elevates the logo-icon link up slightly on hover */
+        .header-logo a:hover {
+            transform: translateY(-4px); /* Moves up cleanly along the vertical axis */
+        }
+
+        /* Applied unified dimensions to both logo image assets */
+        .header-logo img {
+            height: 48px;
+            width: auto;
+            display: block;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        /* Prepared menu links for absolute-positioned dots underneath */
+        header nav a {
+            text-decoration: none;
+            font-family: 'Latienne Swash T', Georgia, serif; 
+            color: #e96558;
+            font-size: 1rem; 
+            text-transform: lowercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px; 
+            transition: color 0.2s ease;
+        }
+
+        header nav a:hover {
+            color: #b83d31; 
+        }
+
+        /* Hidden circle created underneath each menu element */
+        header nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; 
+            left: calc(50% - 3px); 
+            width: 6px;
+            height: 6px;
+            background-color: #ff99b8; 
+            border-radius: 50%; 
+            transform: scale(0); 
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+
+        /* Animates scale expansion on hover state */
+        header nav a:hover::after {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <a href="#"><img src="logo-icon.png" alt="Home"></a>
+            
+            <img src="logo1.png" alt="Logo 1">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#">about</a></li>
+                <li><a href="#">services</a></li>
+                <li><a href="#">contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+</body>
+</html>

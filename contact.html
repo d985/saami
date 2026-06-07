@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #fcfcfc;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FIXED UNIFORM HEADER */
+        header {
+            width: 100%;
+            height: 80px; 
+            padding: 0 2rem; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 32px;
+            width: auto;
+            display: block;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: #555555;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s ease;
+        }
+
+        header nav a:hover, .current-page {
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .header-spacer {
+            width: 32px;
+        }
+
+        .content-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+        }
+
+        .contact-form-wrapper {
+            width: 100%;
+            max-width: 450px;
+            text-align: left;
+        }
+
+        .contact-form-wrapper h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #555555;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            background-color: #ffffff;
+            font-family: inherit;
+            font-size: 1rem;
+            color: #1a1a1a;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #000000;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button[type="submit"] {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #404040;
+        }
+
+        button[type="submit"]:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <a href="index.html"><img src="logo-icon.png" alt="Home"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="current-page">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-spacer"></div>
+    </header>
+
+    <div class="content-container">
+        <div class="contact-form-wrapper">
+            <h1>Get in Touch</h1>
+            
+            <form id="my-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID_HERE" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Your Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@domain.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="How can we help?"></textarea>
+                </div>
+                
+                <button type="submit" id="submit-btn">Send Message</button>
+                <p id="form-status" style="margin-top: 1.5rem; font-size: 0.9rem; font-weight: 500; text-align: center;"></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("my-form");
+        const status = document.getElementById("form-status");
+        const button = document.getElementById("submit-btn");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            button.disabled = true;
+            button.innerText = "Sending...";
+            status.innerText = "";
+
+            const data = new FormData(event.target);
+            try {
+                const response = await fetch(event.target.action, {
+                    method: form.method,
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    status.style.color = "#2e7d32";
+                    status.innerText = "Message sent successfully! Thank you.";
+                    form.reset();
+                } else {
+                    const responseData = await response.json();
+                    status.style.color = "#c62828";
+                    if (responseData.errors) {
+                        status.innerText = responseData.errors.map(error => error.message).join(", ");
+                    } else {
+                        status.innerText = "Oops! There was a problem submitting your form.";
+                    }
+                }
+            } catch (error) {
+                status.style.color = "#c62828";
+                status.innerText = "Oops! There was a connectivity problem.";
+            } finally {
+                button.innerText = "Send Message";
+                button.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #fcfcfc;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FIXED UNIFORM HEADER */
+        header {
+            width: 100%;
+            height: 80px; 
+            padding: 0 2rem; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 32px;
+            width: auto;
+            display: block;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: #555555;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s ease;
+        }
+
+        header nav a:hover, .current-page {
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .header-spacer {
+            width: 32px;
+        }
+
+        .content-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+            text-align: center;
+            width: 100%;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            width: 100%;
+        }
+
+        .service-card {
+            text-align: left;
+        }
+
+        .service-card h2 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555555;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <a href="index.html"><img src="logo-icon.png" alt="Home"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="services.html" class="current-page">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-spacer"></div>
+    </header>
+
+    <div class="content-container">
+        <h1>What We Do</h1>
+        <div class="services-grid">
+            <div class="service-card">
+                <h2>Service One</h2>
+                <p>We provide tailormade, high-quality solutions designed to meet your specific industry challenges. Crafted with total precision and built to scale effortlessly.</p>
+            </div>
+            <div class="service-card">
+                <h2>Service Two</h2>
+                <p>A completely unique approach to data optimization and strategic consultation, elevating your operational performance to its peak standard.</p>
+            </div>
+            <div class="service-card">
+                <h2>Service Three</h2>
+                <p>Ongoing implementation, management, and elite long-term execution to ensure your brand operations continue run completely uninterrupted.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
