@@ -73,7 +73,7 @@
             transform: translateY(-4px); 
         }
 
-        /* Applied unified dimensions to both logo image assets */
+        /* Applied unified dimensions to both logo image assets on desktop views */
         .header-logo img {
             height: 48px;
             width: auto;
@@ -183,7 +183,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: scroll; /* Swapped to scroll since it isolates to a single view container */
+            background-attachment: scroll; 
         }
 
         /* Content block wrapping layout */
@@ -285,12 +285,32 @@
 
         /* --- Responsive Mobile Breakpoint Settings --- */
         @media (max-width: 768px) {
+            /* Tightened header bounds so structural margins don't swallow phone widths */
+            header {
+                padding: 0 1rem; 
+            }
+
+            /* Brought logos closer together on mobile view screens */
+            .header-logo {
+                gap: 0.2rem;
+            }
+
+            /* Responsive Scaling: Decreases asset dimension footprints on mobile devices */
+            .header-logo img {
+                height: 32px; 
+            }
+
+            /* Keeps alignment balanced relative to the new reduced image base scales */
+            .header-logo > img {
+                transform: translateY(1px); 
+            }
+
             /* Loads lightweight portrait image variant only inside the mobile home view area */
             #home {
                 background-image: url('background-mobile.jpg');
             }
 
-            /* Reveal the menu toggle burger button */
+            /* Reveal the mobile menu hamburger graphic toggle button */
             .menu-toggle {
                 display: flex;
             }
