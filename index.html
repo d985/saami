@@ -35,14 +35,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            
-            /* Fixed background image configuration so it stays in place as you scroll */
-            background-color: #fef6eb; 
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed; 
+            background-color: #fef6eb; /* Main solid background color for content scroll areas */
         }
 
         /* Header Bar: Fixed at the top of the viewport so it stays visible */
@@ -92,7 +85,7 @@
             transform: translateY(2px); 
         }
 
-        /* Mobile Menu Toggle Button (Hidden on desktop layout viewports) */
+        /* Mobile Menu Toggle Button */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -102,7 +95,7 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            z-index: 200; /* Keeps button sitting cleanly on top of mobile overlay menu */
+            z-index: 200; 
         }
 
         .menu-toggle span {
@@ -182,6 +175,15 @@
             height: 100%;
             background-color: rgba(254, 246, 235, 0.4); 
             z-index: -1; 
+        }
+
+        /* --- Home Section Background Configurations --- */
+        #home {
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: scroll; /* Swapped to scroll since it isolates to a single view container */
         }
 
         /* Content block wrapping layout */
@@ -281,9 +283,14 @@
             transform: scale(0.98);
         }
 
-        /* --- Responsive Mobile Breakpoint Layout Settings --- */
+        /* --- Responsive Mobile Breakpoint Settings --- */
         @media (max-width: 768px) {
-            /* Reveal the menu toggle burger button button */
+            /* Loads lightweight portrait image variant only inside the mobile home view area */
+            #home {
+                background-image: url('background-mobile.jpg');
+            }
+
+            /* Reveal the menu toggle burger button */
             .menu-toggle {
                 display: flex;
             }
@@ -292,28 +299,27 @@
             header nav ul {
                 position: fixed;
                 top: 0;
-                right: -100%; /* Keeps menu initially hidden offscreen to the right side */
+                right: -100%; 
                 width: 75%;
                 max-width: 300px;
                 height: 100vh;
-                background-color: rgba(254, 246, 235, 0.96); /* Solid tint matching layout colors */
+                background-color: rgba(254, 246, 235, 0.96); 
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 gap: 3rem;
                 padding: 2rem;
                 box-shadow: -5px 0 25px rgba(0, 0, 0, 0.08);
-                transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Snappy slide movement */
+                transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
                 z-index: 150;
             }
 
-            /* Class added dynamically via JavaScript to slide the drawer view into sight */
             header nav ul.active {
                 right: 0;
             }
 
             header nav a {
-                font-size: 1.4rem; /* Scaled up text to ensure comfortable phone tapping */
+                font-size: 1.4rem; 
             }
 
             /* Animate the hamburger icon bars into an 'X' close graphic when opened */
