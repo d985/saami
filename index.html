@@ -361,7 +361,6 @@
             }
 
             /* --- MOBILE TOUCH ANIMATION RULES --- */
-            /* Applied programmatically via JavaScript on touch events to ensure smooth bounce */
             .header-logo a.touch-active,
             header nav a.touch-active {
                 transform: translateY(-5px) !important;
@@ -458,31 +457,39 @@
             navMenu.classList.toggle('active');
         });
 
-        // Helper function to bundle mobile feedback touch animations
+        // Helper function to bundle mobile feedback touch animations with an active stay delay
         const applyMobileTouchAnimation = (elementsList) => {
             elementsList.forEach(element => {
-                // Raise item up as soon as finger touches the surface
+                // Raise item up immediately upon finger compression strike
                 element.addEventListener('touchstart', () => {
                     element.classList.add('touch-active');
                 }, { passive: true });
 
-                // Lower item right back down on lift or exit
-                const clearLift = () => element.classList.remove('touch-active');
-                element.addEventListener('touchend', clearLift);
-                element.addEventListener('touchcancel', clearLift);
-                element.addEventListener('click', clearLift);
+                // FIXED DELAY TRIGGER: Delays class deletion to give an intentional hanging float effect
+                const clearLiftWithDelay = () => {
+                    setTimeout(() => {
+                        element.classList.remove('touch-active');
+                    }, 200); // 200 milliseconds delay window
+                };
+
+                element.addEventListener('touchend', clearLiftWithDelay);
+                element.addEventListener('touchcancel', clearLiftWithDelay);
+                element.addEventListener('click', clearLiftWithDelay);
             });
         };
 
-        // Attach listeners to both sets of interacting components
+        // Attach delayed tap response listeners
         applyMobileTouchAnimation(navLinks);
         applyMobileTouchAnimation(logoLinks);
 
         // Auto-close menu drawer when clicking a link option
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
+                // Allows anchor lift visual timeline to express itself before closing drawer pane
+                setTimeout(() => {
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }, 200);
             });
         });
 
