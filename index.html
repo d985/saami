@@ -61,16 +61,19 @@
             gap: 0.35rem; 
         }
 
-        /* Prepares the logo-icon anchor link for transition movement */
+        /* Prepares the logo anchor links for transition movement */
         .header-logo a {
             display: flex;
             align-items: center;
-            transition: transform 0.2s ease; 
+            text-decoration: none;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); 
         }
 
-        /* Elevates the logo-icon link up slightly on hover */
-        .header-logo a:hover {
-            transform: translateY(-4px); 
+        /* Elevates the links up slightly on hover (Desktop only) */
+        @media (min-width: 769px) {
+            .header-logo a:hover {
+                transform: translateY(-4px); 
+            }
         }
 
         /* Applied unified dimensions to both logo image assets on desktop views */
@@ -80,9 +83,15 @@
             display: block;
         }
 
-        /* Specifically target logo1 to lower it slightly */
-        .header-logo > img {
+        /* Specifically target logo1 link package to lower it slightly for balance */
+        .header-logo a.logo1-link {
             transform: translateY(2px); 
+        }
+        
+        @media (min-width: 769px) {
+            .header-logo a.logo1-link:hover {
+                transform: translateY(-2px); /* Offsets baseline tweak during desktop hovers */
+            }
         }
 
         /* Mobile Menu Toggle Button */
@@ -124,18 +133,22 @@
             position: relative;
             display: inline-block;
             padding-bottom: 8px; 
-            transition: color 0.2s ease;
+            transition: color 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        header nav a:hover {
-            color: #b83d31; 
+        /* Desktop specific text lifting rules */
+        @media (min-width: 769px) {
+            header nav a:hover {
+                color: #b83d31; 
+                transform: translateY(-3px); 
+            }
         }
 
         /* Hidden circle created underneath each menu element */
         header nav a::after {
             content: '';
             position: absolute;
-            bottom: -2px; 
+            bottom: -5px; 
             left: calc(50% - 3px); 
             width: 6px;
             height: 6px;
@@ -151,8 +164,6 @@
         }
 
         /* --- Section Containers --- */
-        
-        /* Layout scaffolding for full-screen content panels */
         section {
             min-height: 100vh;
             width: 100vw;
@@ -174,7 +185,6 @@
             background-attachment: scroll; 
         }
 
-        /* Keeps your 40% overlay tint isolated STRICTLY to the home section image background */
         #home::before {
             content: '';
             position: absolute;
@@ -186,7 +196,6 @@
             z-index: -1; 
         }
 
-        /* Content block wrapping layout */
         .container {
             max-width: 800px;
             width: 100%;
@@ -215,7 +224,6 @@
         }
 
         /* --- Contact Form Styling --- */
-        
         form {
             display: flex;
             flex-direction: column;
@@ -286,50 +294,45 @@
         /* --- Responsive Mobile Breakpoint Settings --- */
         @media (max-width: 768px) {
             header {
-                height: 80px; /* ENLARGED: Height increased from 65px to 80px */
+                height: 80px; 
                 padding: 0 1rem; 
-                display: grid; /* Swapped to grid for perfect absolute centering geometry */
+                display: grid; 
                 grid-template-columns: 40px 1fr 40px; 
                 align-items: center;
                 justify-items: center;
             }
 
-            /* Re-configures container to isolate logo items relative to the header grid slots */
             .header-logo {
-                grid-column: 2; /* Forces brand items into center column track */
+                grid-column: 2; 
                 width: 100%;
                 justify-content: center;
                 gap: 0.5rem;
             }
 
-            /* Pulls the home icon over to the left edge of the screen */
-            .header-logo a {
+            .header-logo a.home-icon-link {
                 position: absolute;
                 left: 1rem;
             }
 
-            /* ENLARGED: Expanded branding assets max limits up to 40px on mobile */
-            .header-logo > img {
-                height: 40px !important; 
+            .header-logo a.logo1-link {
+                position: static;
                 transform: none;
             }
-            .header-logo a img {
+
+            .header-logo img {
                 height: 40px !important;
             }
 
-            /* Loads lightweight portrait image variant only inside the mobile home view area */
             #home {
                 background-image: url('background-mobile.jpg');
             }
 
-            /* Reveal the mobile menu hamburger graphic toggle button */
             .menu-toggle {
                 display: flex;
-                grid-column: 3; /* Positions menu toggle squarely on the right track */
+                grid-column: 3; 
                 justify-self: end;
             }
 
-            /* Transform the standard list menu into a vertical drawer panel layer */
             header nav ul {
                 position: fixed;
                 top: 0;
@@ -345,7 +348,7 @@
                 padding: 2rem;
                 box-shadow: -5px 0 25px rgba(0, 0, 0, 0.08);
                 transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-                z-index: 999; /* LAYER LAYER FIX: Lifted container completely over main sections */
+                z-index: 999; 
             }
 
             header nav ul.active {
@@ -354,10 +357,16 @@
 
             header nav a {
                 font-size: 1.4rem; 
-                display: block; /* Ensures full link target hit area */
+                display: block; 
             }
 
-            /* Animate the hamburger icon bars into an 'X' close graphic when opened */
+            /* --- MOBILE TOUCH ANIMATION RULES --- */
+            /* Applied programmatically via JavaScript on touch events to ensure smooth bounce */
+            .header-logo a.touch-active,
+            header nav a.touch-active {
+                transform: translateY(-5px) !important;
+            }
+
             .menu-toggle.active span:nth-child(1) {
                 transform: translateY(8px) rotate(45deg);
             }
@@ -375,8 +384,8 @@
 
     <header>
         <div class="header-logo">
-            <a href="#home"><img src="logo-icon.png" alt="Home"></a>
-            <img src="logo1.png" alt="Logo 1">
+            <a href="#home" class="home-icon-link"><img src="logo-icon.png" alt="Home"></a>
+            <a href="#home" class="logo1-link"><img src="logo1.png" alt="Logo 1"></a>
         </div>
         
         <nav>
@@ -440,6 +449,7 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.getElementById('nav-menu');
         const navLinks = document.querySelectorAll('#nav-menu a');
+        const logoLinks = document.querySelectorAll('.header-logo a');
 
         // Toggle mobile drawer layout on hamburger click
         menuToggle.addEventListener('click', (event) => {
@@ -447,6 +457,26 @@
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
+
+        // Helper function to bundle mobile feedback touch animations
+        const applyMobileTouchAnimation = (elementsList) => {
+            elementsList.forEach(element => {
+                // Raise item up as soon as finger touches the surface
+                element.addEventListener('touchstart', () => {
+                    element.classList.add('touch-active');
+                }, { passive: true });
+
+                // Lower item right back down on lift or exit
+                const clearLift = () => element.classList.remove('touch-active');
+                element.addEventListener('touchend', clearLift);
+                element.addEventListener('touchcancel', clearLift);
+                element.addEventListener('click', clearLift);
+            });
+        };
+
+        // Attach listeners to both sets of interacting components
+        applyMobileTouchAnimation(navLinks);
+        applyMobileTouchAnimation(logoLinks);
 
         // Auto-close menu drawer when clicking a link option
         navLinks.forEach(link => {
