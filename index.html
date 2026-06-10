@@ -38,7 +38,7 @@
             background-color: #fef6eb; /* Main solid background color for content scroll areas */
         }
 
-        /* Header Bar: Fixed at the top of the viewport so it stays visible */
+        /* Header Bar: Fixed at the top, perfectly seamless with the background on the home view */
         header {
             width: 100%;
             height: 65px; 
@@ -50,48 +50,60 @@
             top: 0;
             left: 0;
             z-index: 100; 
-            background-color: #fef6eb; 
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
+            background-color: #fef6eb; /* Matches the page background exactly */
+            box-shadow: none; /* Removed shadow on home view to make it completely flat */
+            transition: box-shadow 0.3s ease; /* Smooth transition when scrolling down */
         }
 
-        /* Groups the main logo and logo1 side-by-side and centers them vertically */
+        /* Adds a subtle layout anchor shadow only when scrolled past the home view */
+        body.scrolled header {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Groups the main logo-icon on the left side */
         .header-logo {
             display: flex;
             align-items: center;
-            gap: 0.35rem; 
         }
 
         /* Prepares the logo anchor links for transition movement */
-        .header-logo a {
+        .header-logo a, .header-center-logo a {
             display: flex;
             align-items: center;
             text-decoration: none;
-            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); 
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease, visibility 0.25s ease; 
+        }
+
+        /* Hides the header logo-icon strictly when the home view is active */
+        body.home-active .header-logo a.home-icon-link {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Independent wrapper that locks logo1 exactly in the horizontal center of the header */
+        .header-center-logo {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            z-index: 105;
         }
 
         /* Elevates the links up slightly on hover (Desktop only) */
         @media (min-width: 769px) {
-            .header-logo a:hover {
+            .header-logo a:hover, .header-center-logo a:hover {
                 transform: translateY(-4px); 
             }
         }
 
         /* Applied unified dimensions to both logo image assets on desktop views */
-        .header-logo img {
+        .header-logo img, .header-center-logo img {
             height: 48px;
             width: auto;
             display: block;
-        }
-
-        /* Specifically target logo1 link package to lower it slightly for balance */
-        .header-logo a.logo1-link {
-            transform: translateY(2px); 
-        }
-        
-        @media (min-width: 769px) {
-            .header-logo a.logo1-link:hover {
-                transform: translateY(-2px); /* Offsets baseline tweak during desktop hovers */
-            }
         }
 
         /* Mobile Menu Toggle Button */
@@ -115,13 +127,64 @@
             transition: all 0.3s ease;
         }
 
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+
         header nav ul {
             list-style: none;
             display: flex;
             gap: 2.5rem;
+            transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Prepared menu links for absolute-positioned dots underneath */
+        /* --- Desktop Specific: Dynamic Home Hover Menu Logic --- */
+        @media (min-width: 769px) {
+            /* While home view is active, anchor the menu items dynamically near the bottom of the screen */
+            body.home-active header nav ul {
+                position: fixed;
+                left: 50%;
+                top: auto;
+                bottom: 8%; /* Placed consistently closer to the bottom boundary edge */
+                transform: translateX(-50%) translateY(15px); 
+                opacity: 0;
+                pointer-events: none;
+                gap: 3.5rem;
+                z-index: 110;
+                transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                            transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+
+            /* INVISIBLE HOVER BRIDGE: Generates a seamless catch-zone between the logo-icon and the bottom menu */
+            body.home-active header nav::before {
+                content: '';
+                position: fixed;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 20vh;          /* Extends high enough to meet the bottom area of the large logo */
+                bottom: 0;          /* Stretches to the floor of the viewport */
+                width: 60vw;        /* Broad hit area to easily capture natural downward mouse sweeps */
+                z-index: 109;       /* Sits just behind the interactive menu text list */
+                pointer-events: none;
+            }
+
+            /* Activating the hit zone pointer-events only when the logo is engaged */
+            body.home-active.logo-hovered header nav::before,
+            body.home-active header nav:hover::before {
+                pointer-events: auto;
+            }
+
+            /* Reveal options instantly when body state maps center image hover or menu navigation interaction */
+            body.home-active.logo-hovered header nav ul,
+            body.home-active header nav:hover ul {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateX(-50%) translateY(0); 
+            }
+        }
+
+        /* Navigation links reverted back to your signature terracotta red */
         header nav a {
             text-decoration: none;
             font-family: 'Latienne Swash T', Georgia, serif; 
@@ -176,24 +239,98 @@
             z-index: 10;
         }
 
-        /* --- Home Section Background & Overlay Configurations --- */
+        /* --- Home Section Image Configuration --- */
         #home {
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: scroll; 
+            overflow: hidden;
+            background-color: #fef6eb; 
         }
 
-        #home::before {
-            content: '';
+        /* Pinned background layer layout controls */
+        .home-bg-stack {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(254, 246, 235, 0.4); 
-            z-index: -1; 
+            z-index: 5; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            padding: 15px 2rem 5rem 2rem; 
+        }
+
+        /* Desktop view modification: Push layout downward away from the fixed header */
+        @media (min-width: 769px) {
+            .home-bg-stack {
+                justify-content: flex-start; /* Aligns content to the top instead of the exact vertical center */
+                padding-top: 120px; /* Generates explicit, clean breathing space below the header */
+            }
+        }
+
+        /* Universal baseline controls with horizontal breathing padding for the logo */
+        .home-bg-stack img {
+            max-width: 95%;
+            object-fit: contain; 
+            display: block;
+            padding: 1rem 2rem;
+        }
+
+        /* Expanded layout limits to make center graphic substantially larger on desktop viewports */
+        .home-bg-stack img.bg-image-bottom {
+            flex: 1; 
+            height: 100%; 
+            max-height: 68vh; 
+            cursor: pointer; 
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Subtle interactive accent response when hovering over the central element */
+        @media (min-width: 769px) {
+            .home-bg-stack img.bg-image-bottom:hover {
+                transform: scale(1.015);
+            }
+        }
+
+        /* Floating Down Arrow Button positioned in the lower right corner */
+        .scroll-down-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: #e96558;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 90;
+            box-shadow: 0 4px 15px rgba(233, 101, 88, 0.2);
+            transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Only make the arrow button visible when we are strictly in the home view */
+        body.home-active .scroll-down-btn {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Clean CSS Chevron Arrow */
+        .scroll-down-btn::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-right: 3px solid #ffffff;
+            border-bottom: 3px solid #ffffff;
+            transform: translateY(-2px) rotate(45deg);
+        }
+
+        .scroll-down-btn:hover {
+            background-color: #b83d31;
+            transform: translateY(3px);
         }
 
         .container {
@@ -296,41 +433,30 @@
             header {
                 height: 80px; 
                 padding: 0 1rem; 
-                display: grid; 
-                grid-template-columns: 40px 1fr 40px; 
+                display: flex;
+                justify-content: space-between;
                 align-items: center;
-                justify-items: center;
             }
 
             .header-logo {
-                grid-column: 2; 
-                width: 100%;
-                justify-content: center;
-                gap: 0.5rem;
-            }
-
-            .header-logo a.home-icon-link {
-                position: absolute;
-                left: 1rem;
-            }
-
-            .header-logo a.logo1-link {
                 position: static;
-                transform: none;
             }
 
-            .header-logo img {
+            /* Keeps centering functional across compressed mobile viewports */
+            .header-center-logo {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .header-logo img, .header-center-logo img {
                 height: 40px !important;
-            }
-
-            #home {
-                background-image: url('background-mobile.jpg');
             }
 
             .menu-toggle {
                 display: flex;
-                grid-column: 3; 
-                justify-self: end;
+                z-index: 200; 
             }
 
             header nav ul {
@@ -340,7 +466,7 @@
                 width: 75%;
                 max-width: 300px;
                 height: 100vh;
-                background-color: rgba(254, 246, 235, 0.98); 
+                background-color: rgba(254, 246, 235, 0.98); /* Returned drawer to cream base */
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
@@ -360,8 +486,16 @@
                 display: block; 
             }
 
+            .scroll-down-btn {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 44px;
+                height: 44px;
+            }
+
             /* --- MOBILE TOUCH ANIMATION RULES --- */
             .header-logo a.touch-active,
+            .header-center-logo a.touch-active,
             header nav a.touch-active {
                 transform: translateY(-5px) !important;
             }
@@ -384,6 +518,9 @@
     <header>
         <div class="header-logo">
             <a href="#home" class="home-icon-link"><img src="logo-icon.png" alt="Home"></a>
+        </div>
+        
+        <div class="header-center-logo">
             <a href="#home" class="logo1-link"><img src="logo1.png" alt="Logo 1"></a>
         </div>
         
@@ -402,7 +539,13 @@
         </nav>
     </header>
 
-    <section id="home"></section>
+    <section id="home">
+        <div class="home-bg-stack">
+            <img src="logo-icon.png" alt="Logo Icon Background" class="bg-image-bottom" id="center-home-logo">
+        </div>
+    </section>
+
+    <a href="#about" class="scroll-down-btn" aria-label="Scroll down to next section"></a>
 
     <section id="about">
         <div class="container">
@@ -439,6 +582,11 @@
                     <textarea id="message" name="message" required placeholder="how can we help you?"></textarea>
                 </div>
                 
+                <div class="form-group" style="display: none !important;">
+                    <label for="honeypot">Leave this empty</label>
+                    <input type="text" id="honeypot" name="honeypot" autocomplete="off">
+                </div>
+                
                 <button type="submit">submit</button>
             </form>
         </div>
@@ -448,7 +596,63 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.getElementById('nav-menu');
         const navLinks = document.querySelectorAll('#nav-menu a');
-        const logoLinks = document.querySelectorAll('.header-logo a');
+        const logoLinks = document.querySelectorAll('.header-logo a, .header-center-logo a');
+        const homeSection = document.getElementById('home');
+        const centerHomeLogo = document.getElementById('center-home-logo');
+
+        // Handles JavaScript tracking hooks mapping large logo hover behaviors directly into body element flags
+        if (centerHomeLogo) {
+            centerHomeLogo.addEventListener('mouseenter', () => {
+                document.body.classList.add('logo-hovered');
+            });
+            centerHomeLogo.addEventListener('mouseleave', () => {
+                document.body.classList.remove('logo-hovered');
+            });
+
+            // MOBILE ONLY: Clicking the central logo opens/toggles the menu drawer
+            centerHomeLogo.addEventListener('click', (event) => {
+                if (window.innerWidth <= 768) {
+                    event.stopPropagation(); // Prevents instant closing triggers
+                    menuToggle.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                }
+            });
+        }
+
+        // Forces index scroll back to absolute top layout boundaries on explicit system initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!window.location.hash) {
+                window.scrollTo(0, 0);
+            }
+        });
+
+        // Handles conditional header shadow updates on user page scrolling
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                document.body.classList.add('scrolled');
+            } else {
+                document.body.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer handles contextual hiding of the header's logo-icon and scroll-down arrow toggle
+        const observerOptions = {
+            root: null,
+            threshold: 0.01 
+        };
+
+        const homeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.body.classList.add('home-active');
+                } else {
+                    document.body.classList.remove('home-active');
+                    document.body.classList.remove('logo-hovered'); // Failsafe clearing
+                }
+            });
+        }, observerOptions);
+
+        homeObserver.observe(homeSection);
 
         // Toggle mobile drawer layout on hamburger click
         menuToggle.addEventListener('click', (event) => {
@@ -460,16 +664,14 @@
         // Helper function to bundle mobile feedback touch animations with an active stay delay
         const applyMobileTouchAnimation = (elementsList) => {
             elementsList.forEach(element => {
-                // Raise item up immediately upon finger compression strike
                 element.addEventListener('touchstart', () => {
                     element.classList.add('touch-active');
                 }, { passive: true });
 
-                // FIXED DELAY TRIGGER: Delays class deletion to give an intentional hanging float effect
                 const clearLiftWithDelay = () => {
                     setTimeout(() => {
                         element.classList.remove('touch-active');
-                    }, 200); // 200 milliseconds delay window
+                    }, 200); 
                 };
 
                 element.addEventListener('touchend', clearLiftWithDelay);
@@ -478,14 +680,12 @@
             });
         };
 
-        // Attach delayed tap response listeners
         applyMobileTouchAnimation(navLinks);
         applyMobileTouchAnimation(logoLinks);
 
         // Auto-close menu drawer when clicking a link option
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                // Allows anchor lift visual timeline to express itself before closing drawer pane
                 setTimeout(() => {
                     menuToggle.classList.remove('active');
                     navMenu.classList.remove('active');
@@ -497,8 +697,9 @@
         document.addEventListener('click', (event) => {
             const isClickInsideMenu = navMenu.contains(event.target);
             const isClickInsideToggle = menuToggle.contains(event.target);
+            const isClickLogo = centerHomeLogo && centerHomeLogo.contains(event.target);
             
-            if (navMenu.classList.contains('active') && !isClickInsideMenu && !isClickInsideToggle) {
+            if (navMenu.classList.contains('active') && !isClickInsideMenu && !isClickInsideToggle && !isClickLogo) {
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
             }
