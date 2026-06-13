@@ -104,7 +104,7 @@
         @media (max-width: 768px) {
             header { height: 60px; padding: 0 1rem; }
             .menu-toggle { display: flex; }
-            header nav ul { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background-color: rgba(254, 246, 235, 0.98); flex-direction: column; justify-content: center; align-items: center; gap: 3.5rem; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999; }
+            header nav ul { position: fixed; top: 0; right: -100%; width: 250px; height: 100vh; background-color: rgba(254, 246, 235, 0.98); flex-direction: column; justify-content: center; align-items: center; gap: 3.5rem; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999; }
             header nav ul.active { right: 0; }
             .header-main-logo { margin-top: 0; } 
             .header-main-logo img { height: 35px; }
@@ -223,18 +223,29 @@
         const navMenu = document.getElementById('nav-menu');
         const scrollBtn = document.querySelector('.scroll-down-btn');
         
+        // Toggle Menu
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
 
+        // Close menu when clicking outside
         document.addEventListener('click', (event) => {
             if (navMenu.classList.contains('active') && !navMenu.contains(event.target) && !menuToggle.contains(event.target)) {
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
             }
         });
+
+        // Close menu when clicking a link
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
         
+        // Accordion logic
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
                 const content = header.nextElementSibling;
