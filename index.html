@@ -44,7 +44,7 @@
         header nav a:hover::after, header nav a:active::after { transform: translateX(-50%) scale(1); }
 
         /* HOME SPLIT LAYOUT */
-        #home { display: flex; height: calc(100vh - 90px); margin-top: 90px; width: 100vw; overflow: hidden; }
+        #home { display: flex; height: calc(100vh - 90px); margin-top: 90px; width: 100vw; overflow: hidden; padding-bottom: 5rem; }
         .home-image-side { width: 50%; height: 100%; background-image: url('background.jpg'); background-size: cover; background-position: center; }
         .home-content-side { width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 5rem; background-color: #fef6eb; }
 
@@ -64,8 +64,25 @@
         .scroll-down-btn.at-bottom::after { transform: translateY(2px) rotate(-135deg); }
         
         .container { max-width: 1000px; width: 100%; text-align: center; color: #2b2b2b; padding: 100px 2rem 4rem 2rem; margin: 0 auto; }
+        
+        /* SECTION DIVIDERS */
         section { min-height: 100vh; width: 100vw; position: relative; }
+        section:not(:last-of-type)::after {
+            content: '';
+            display: block;
+            width: 90%; 
+            height: 2px;
+            background: #ff99b8;
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+        }
+        
         section h2 { font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-size: 2.5rem; margin-bottom: 2.5rem; text-transform: lowercase; }
+
+        /* ABOUT SECTION SPECIFIC */
+        .about-text-box { background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid rgba(233, 101, 88, 0.2); box-shadow: 0 4px 15px rgba(233, 101, 88, 0.05); text-align: left; margin-top: 2rem; }
+        .about-text-box p { font-family: 'Josefin Sans', sans-serif; color: #555; line-height: 1.8; font-size: 1.1rem; }
 
         /* ACCORDIONS */
         .accordion { display: flex; flex-direction: row; gap: 1rem; margin-top: 2rem; text-align: left; align-items: flex-start; }
@@ -94,12 +111,10 @@
             .header-logo img { height: 35px; }
             
             .accordion { flex-direction: column; }
-            
-            /* Buttons side-by-side on mobile */
             .button-group { flex-direction: row; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
             .canvas-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
 
-            #home { flex-direction: column; height: auto; margin-top: 60px; }
+            #home { flex-direction: column; height: auto; margin-top: 60px; padding-bottom: 3rem; }
             .home-image-side { width: 100%; height: 35vh; }
             .home-content-side { width: 100%; padding: 1.5rem; align-items: center; text-align: center; }
             .canvas-title-group { text-align: center; align-items: center; margin-bottom: 1.5rem; }
@@ -162,7 +177,14 @@
         </div>
     </section>
 
-    <section id="about"><div class="container"><h2>about</h2><p>About content here...</p></div></section>
+    <section id="about">
+        <div class="container">
+            <h2>about</h2>
+            <div class="about-text-box">
+                <p>Welcome! This is where you can share your professional philosophy, experience, or mission statement. This box provides a clean, readable space for your visitors to learn more about you.</p>
+            </div>
+        </div>
+    </section>
     
     <section id="faq">
         <div class="container">
