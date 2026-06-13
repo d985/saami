@@ -55,11 +55,16 @@
         .home-canvas-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: flex; }
         @media (min-width: 769px) { .home-canvas-container { padding: 0 4rem 0 4rem; } }
         @media (max-width: 768px) { .home-canvas-container { padding: 0; } }
-        #home-canvas { width: 100%; height: 100%; background-image: url('background.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 8px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1.5rem; }
+        #home-canvas { width: 100%; height: 100%; background-image: url('background.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 8px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0; }
         @media (min-width: 769px) { #home-canvas { padding: 85px 8rem 2rem 8rem; } }
-        .canvas-title-group { z-index: 5; position: relative; width: 100%; max-width: 850px; text-align: center; display: flex; flex-direction: column; gap: 0.75rem; }
-        .canvas-title { color: #ffffff; font-family: 'Josefin Sans', sans-serif; font-size: 2.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2; text-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 2px 5px rgba(0, 0, 0, 0.2); }
-        .canvas-subtext { color: #ffffff; font-family: 'Josefin Sans', sans-serif; font-size: 1.4rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; opacity: 0.95; text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2); }
+        
+        .canvas-title-group { z-index: 5; position: relative; width: 100%; max-width: 850px; text-align: center; display: flex; flex-direction: column; }
+        
+        .canvas-title { color: #ffffff; font-family: 'Josefin Sans', sans-serif; font-size: 2.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2; text-shadow: 0 6px 15px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5); margin-bottom: 2rem; }
+        .canvas-subtext { color: #ffffff; font-family: 'Josefin Sans', sans-serif; font-size: 1.4rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; opacity: 0.95; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), 0 2px 3px rgba(0, 0, 0, 0.5); }
+        
+        .telehealth-line { margin-top: -0.25rem; margin-bottom: 2rem; }
+
         .canvas-btn { z-index: 10; position: relative; display: inline-block; text-decoration: none; font-family: 'Josefin Sans', sans-serif; color: #ffffff; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 1rem 2.5rem; background-color: rgba(254, 246, 235, 0.15); border: 2px solid rgba(254, 246, 235, 0.6); border-radius: 30px; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease; }
         .canvas-btn:hover { background-color: rgba(254, 246, 235, 0.35); border-color: rgba(254, 246, 235, 0.9); transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
         .canvas-btn:active { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
@@ -91,8 +96,8 @@
             header { height: 80px; padding: 0 1rem; }
             .header-logo img, .header-center-logo img { height: 40px !important; }
             header nav ul { width: 75%; max-width: 300px; }
-            #home-canvas { border-radius: 0; padding: 80px 1.5rem 2rem 1.5rem; gap: 1.25rem; }
-            .canvas-title { font-size: 1.7rem; padding: 0 0.5rem; }
+            #home-canvas { border-radius: 0; padding: 80px 1.5rem 2rem 1.5rem; }
+            .canvas-title { font-size: 1.7rem; padding: 0 0.5rem; margin-bottom: 1.5rem; }
             .canvas-subtext { font-size: 1.05rem; padding: 0 0.5rem; }
             .canvas-btn { font-size: 1rem; padding: 0.85rem 2rem; }
             .scroll-down-btn { bottom: 1.5rem; right: 1.5rem; width: 44px; height: 44px; }
@@ -129,6 +134,7 @@
                 <div class="canvas-title-group">
                     <h1 class="canvas-title">ADULT AND PEDIATRIC SPEECH THERAPY</h1>
                     <p class="canvas-subtext">SERVING EAST LOS ANGELES AND THE SAN GABRIEL VALLEY</p>
+                    <p class="canvas-subtext telehealth-line">TELEHEALTH ALSO AVAILABLE</p>
                 </div>
                 <a href="#contact" class="canvas-btn">CONTACT US</a>
             </div>
