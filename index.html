@@ -20,131 +20,169 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333333; min-height: 100vh; width: 100vw; display: flex; flex-direction: column; position: relative; background-color: #fef6eb; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333333; min-height: 100vh; background-color: #fef6eb; }
 
-        header { width: 100%; height: 65px; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; z-index: 100; background-color: rgba(254, 246, 235, 0.7) !important; border-bottom: 1px solid rgba(233, 101, 88, 0.15); box-shadow: 0 4px 20px rgba(233, 101, 88, 0.05); backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; transition: box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; }
+        /* HEADER */
+        header { width: 100%; height: 90px; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; z-index: 100; background-color: rgba(254, 246, 235, 0.7) !important; border-bottom: 1px solid rgba(233, 101, 88, 0.15); box-shadow: 0 4px 20px rgba(233, 101, 88, 0.05); backdrop-filter: blur(10px) !important; transition: box-shadow 0.3s ease, background-color 0.3s ease; }
 
-        .header-logo { display: flex; align-items: center; }
-        .header-logo a, .header-center-logo a { display: flex; align-items: center; text-decoration: none; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease, visibility 0.25s ease; }
-        body.home-active .header-logo a.home-icon-link { opacity: 1; visibility: visible; pointer-events: auto; }
-        .header-center-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; z-index: 105; }
+        .logo-group { display: flex; align-items: center; gap: 1rem; }
+        .header-logo img { height: 55px; width: auto; display: block; }
+        .header-main-logo { margin-top: 8px; }
+        .header-main-logo img { height: 55px; width: auto; display: block; }
 
-        @media (min-width: 769px) {
-            .header-logo a:hover { transform: translateY(-4px); }
-            .header-center-logo a:hover { transform: translate(0, -4px); }
-        }
-
-        .header-logo img, .header-center-logo img { height: 48px; width: auto; display: block; }
-
-        .menu-toggle { display: flex; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: transparent; border: none; cursor: pointer; z-index: 1000; }
+        /* Navigation */
+        .menu-toggle { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: transparent; border: none; cursor: pointer; }
         .menu-toggle span { width: 100%; height: 2px; background-color: #e96558; border-radius: 2px; transition: all 0.3s ease; }
         .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .menu-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
         .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-44deg); }
 
-        header nav { display: flex; align-items: center; }
-        header nav ul { list-style: none; display: flex; position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background-color: rgba(254, 246, 235, 0.98); flex-direction: column; justify-content: center; align-items: center; gap: 3.5rem; padding: 2rem; box-shadow: -10px 0 35px rgba(0, 0, 0, 0.08); transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999; }
-        header nav ul.active { right: 0 !important; }
-        header nav a { text-decoration: none; font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-size: 1.5rem; text-transform: lowercase; letter-spacing: 0.08em; font-weight: 700; position: relative; display: inline-block; padding-bottom: 8px; transition: color 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
-        header nav a:hover { color: #b83d31; transform: translateY(-3px); }
-        header nav a::after { content: ''; position: absolute; bottom: -5px; left: calc(50% - 3px); width: 6px; height: 6px; background-color: #ff99b8; border-radius: 50%; transform: scale(0); transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        header nav a:hover::after { transform: scale(1); }
+        header nav ul { list-style: none; display: flex; gap: 2rem; }
+        header nav a { text-decoration: none; font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-size: 1.2rem; text-transform: lowercase; font-weight: 700; transition: color 0.2s ease; position: relative; }
+        header nav a:hover { color: #b83d31; }
+        header nav a::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%) scale(0); width: 6px; height: 6px; background-color: #ff99b8; border-radius: 50%; transition: transform 0.2s ease; }
+        header nav a:hover::after, header nav a:active::after { transform: translateX(-50%) scale(1); }
 
-        section { min-height: 100vh; width: 100vw; padding: 100px 2rem 4rem 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 10; }
-        #home { overflow: hidden; background-color: #fef6eb; display: flex; align-items: center; justify-content: center; }
-        .home-canvas-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: flex; }
-        @media (min-width: 769px) { .home-canvas-container { padding: 0 4rem 0 4rem; } }
-        @media (max-width: 768px) { .home-canvas-container { padding: 0; } }
-        #home-canvas { width: 100%; height: 100%; background-image: url('background.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 8px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0; }
-        @media (min-width: 769px) { #home-canvas { padding: 85px 8rem 2rem 8rem; } }
-        
-        .canvas-title-group { z-index: 5; position: relative; width: 100%; max-width: 850px; text-align: center; display: flex; flex-direction: column; }
-        
-        .canvas-title { color: #ffffff; font-family: 'Josefin Sans', sans-serif; font-size: 2.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2; text-shadow: 0 6px 15px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5); margin-bottom: 2rem; }
-        .canvas-subtext { color: #ffffff; font-family: 'Josefin Sans', sans-serif; font-size: 1.4rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; opacity: 0.95; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), 0 2px 3px rgba(0, 0, 0, 0.5); }
-        
-        .telehealth-line { margin-top: -0.25rem; margin-bottom: 2rem; }
+        /* HOME SPLIT LAYOUT */
+        #home { display: flex; height: calc(100vh - 90px); margin-top: 90px; width: 100vw; overflow: hidden; }
+        .home-image-side { width: 50%; height: 100%; background-image: url('background.jpg'); background-size: cover; background-position: center; }
+        .home-content-side { width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 5rem; background-color: #fef6eb; }
 
-        .canvas-btn { z-index: 10; position: relative; display: inline-block; text-decoration: none; font-family: 'Josefin Sans', sans-serif; color: #ffffff; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 1rem 2.5rem; background-color: rgba(254, 246, 235, 0.15); border: 2px solid rgba(254, 246, 235, 0.6); border-radius: 30px; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease; }
-        .canvas-btn:hover { background-color: rgba(254, 246, 235, 0.35); border-color: rgba(254, 246, 235, 0.9); transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
-        .canvas-btn:active { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+        .canvas-title-group { text-align: left; display: flex; flex-direction: column; margin-bottom: 2rem; }
+        .canvas-title { color: #e96558; font-family: 'Josefin Sans', sans-serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2; margin-bottom: 1.5rem; }
+        .canvas-subtext { color: #333333; font-family: 'Josefin Sans', sans-serif; font-size: clamp(1rem, 1.5vw, 1.4rem); font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; opacity: 0.9; }
+        .telehealth-line { margin-top: 1.5rem; }
+
+        /* BUTTONS */
+        .button-group { display: flex; gap: 1rem; align-items: center; }
+        .canvas-btn { display: inline-block; text-decoration: none; font-family: 'Josefin Sans', sans-serif; color: #ffffff; font-size: clamp(0.9rem, 1vw, 1.1rem); font-weight: 700; text-transform: uppercase; padding: 0.8rem 2rem; background-color: #e96558; border-radius: 30px; transition: transform 0.2s ease, background-color 0.2s ease, border 0.2s ease; border: 2px solid #e96558; }
+        .canvas-btn:hover { background-color: #b83d31; border-color: #b83d31; transform: translateY(-4px); }
 
         /* SCROLL BUTTON */
-        .scroll-down-btn { position: fixed; bottom: 2rem; right: 2rem; width: 50px; height: 50px; background-color: rgba(254, 246, 235, 0.7); border: 1px solid rgba(233, 101, 88, 0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 90; box-shadow: 0 4px 15px rgba(233, 101, 88, 0.1); backdrop-filter: blur(5px); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease, box-shadow 0.3s ease; }
-        .scroll-down-btn::after { content: ''; width: 10px; height: 10px; border-right: 3px solid #e96558; border-bottom: 3px solid #e96558; transform: translateY(-2px) rotate(45deg); transition: transform 0.3s ease, border-color 0.3s ease; }
+        .scroll-down-btn { position: fixed; bottom: 2rem; right: 2rem; width: 50px; height: 50px; background-color: rgba(254, 246, 235, 0.7); border: 1px solid rgba(233, 101, 88, 0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 90; transition: transform 0.3s ease; }
+        .scroll-down-btn::after { content: ''; width: 10px; height: 10px; border-right: 3px solid #e96558; border-bottom: 3px solid #e96558; transform: translateY(-2px) rotate(45deg); transition: transform 0.3s ease; }
+        .scroll-down-btn.at-bottom::after { transform: translateY(2px) rotate(-135deg); }
         
-        /* UP ARROW STATE */
-        body.at-bottom .scroll-down-btn::after { transform: translateY(2px) rotate(-135deg); }
-        
-        .scroll-down-btn:hover { background-color: rgba(233, 101, 88, 0.1); border-color: rgba(233, 101, 88, 0.4); transform: translateY(4px); box-shadow: 0 6px 20px rgba(233, 101, 88, 0.15); }
+        .container { max-width: 1000px; width: 100%; text-align: center; color: #2b2b2b; padding: 100px 2rem 4rem 2rem; margin: 0 auto; }
+        section { min-height: 100vh; width: 100vw; position: relative; }
+        section h2 { font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-size: 2.5rem; margin-bottom: 2.5rem; text-transform: lowercase; }
 
-        .container { max-width: 800px; width: 100%; text-align: center; color: #2b2b2b; padding: 2rem; background-color: rgba(254, 246, 235, 0.65); border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); }
-        section h2 { font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-size: 2.5rem; margin-bottom: 1.5rem; text-transform: lowercase; letter-spacing: 0.04em; }
-        section p { font-size: 0.95rem; line-height: 1.8; color: #555555; margin-bottom: 1.5rem; }
+        /* ACCORDIONS */
+        .accordion { display: flex; flex-direction: row; gap: 1rem; margin-top: 2rem; text-align: left; align-items: flex-start; }
+        .accordion-vertical { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; text-align: left; }
+        
+        .accordion-item { border: 1px solid rgba(233, 101, 88, 0.2); border-radius: 8px; overflow: hidden; background: #fff; flex: 1; display: flex; flex-direction: column; }
+        .accordion-header { padding: 1.5rem; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 1.1rem; color: #e96558; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s ease; text-transform: uppercase; letter-spacing: 0.05em; }
+        .accordion-header:hover { background: rgba(233, 101, 88, 0.05); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease; font-family: 'Josefin Sans', sans-serif; color: #666; line-height: 1.6; }
+        .accordion-content.active { max-height: 300px; padding: 0 1.5rem 1.5rem 1.5rem; }
 
         form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; margin: 0 auto; text-align: left; }
         .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-        form label { font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.05em; }
-        form input, form textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid rgba(233, 101, 88, 0.3); border-radius: 6px; background-color: #ffffff; font-family: inherit; font-size: 1rem; color: #333333; transition: border-color 0.2s ease; }
-        form input:focus, form textarea:focus { outline: none; border-color: #e96558; }
-        form textarea { resize: vertical; min-height: 120px; }
-        form button { background-color: #e96558; color: #ffffff; border: none; padding: 0.85rem 2rem; font-family: 'Latienne Swash T', Georgia, serif; font-size: 1.1rem; font-weight: 700; border-radius: 6px; cursor: pointer; align-self: flex-start; transition: background-color 0.2s ease, transform 0.1s ease; }
-        form button:hover { background-color: #b83d31; }
-        form button:active { transform: scale(0.98); }
+        form label { font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-weight: 700; font-size: 0.95rem; }
+        form input, form textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid rgba(233, 101, 88, 0.3); border-radius: 6px; }
+        form button { background-color: #e96558; color: #ffffff; border: none; padding: 0.85rem 2rem; font-family: 'Latienne Swash T', Georgia, serif; font-size: 1.1rem; border-radius: 6px; cursor: pointer; align-self: flex-start; }
 
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            header { height: 80px; padding: 0 1rem; }
-            .header-logo img, .header-center-logo img { height: 40px !important; }
-            header nav ul { width: 75%; max-width: 300px; }
-            #home-canvas { border-radius: 0; padding: 80px 1.5rem 2rem 1.5rem; }
-            .canvas-title { font-size: 1.7rem; padding: 0 0.5rem; margin-bottom: 1.5rem; }
-            .canvas-subtext { font-size: 1.05rem; padding: 0 0.5rem; }
-            .canvas-btn { font-size: 1rem; padding: 0.85rem 2rem; }
-            .scroll-down-btn { bottom: 1.5rem; right: 1.5rem; width: 44px; height: 44px; }
-            .header-logo a.touch-active, header nav a.touch-active, .canvas-btn.touch-active, .scroll-down-btn.touch-active { transform: translateY(-5px) !important; }
-            .header-center-logo a.touch-active { transform: translate(0, -5px) !important; }
-            .scroll-down-btn.touch-active { transform: translateY(4px) !important; }
+            header { height: 60px; padding: 0 1rem; }
+            .menu-toggle { display: flex; }
+            header nav ul { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background-color: rgba(254, 246, 235, 0.98); flex-direction: column; justify-content: center; align-items: center; gap: 3.5rem; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999; }
+            header nav ul.active { right: 0; }
+            .header-main-logo { margin-top: 0; } 
+            .header-main-logo img { height: 35px; }
+            .header-logo img { height: 35px; }
+            
+            .accordion { flex-direction: column; }
+            
+            /* Buttons side-by-side on mobile */
+            .button-group { flex-direction: row; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+            .canvas-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
+
+            #home { flex-direction: column; height: auto; margin-top: 60px; }
+            .home-image-side { width: 100%; height: 35vh; }
+            .home-content-side { width: 100%; padding: 1.5rem; align-items: center; text-align: center; }
+            .canvas-title-group { text-align: center; align-items: center; margin-bottom: 1.5rem; }
+            .canvas-title { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-logo">
-            <a href="#home" class="home-icon-link"><img src="logo-icon.png" alt="Home"></a>
-        </div>
-        <div class="header-center-logo">
-            <a href="#home" class="logo1-link"><img src="logo1.png" alt="Logo 1"></a>
+        <div class="logo-group">
+            <div class="header-logo"><a href="#home"><img src="logo-icon.png" alt="Home"></a></div>
+            <div class="header-main-logo"><a href="#home"><img src="logo1.png" alt="Logo 1"></a></div>
         </div>
         <nav>
-            <button class="menu-toggle" aria-label="Toggle Navigation menu" aria-expanded="false" aria-controls="nav-menu">
-                <span></span><span></span><span></span>
-            </button>
+            <button class="menu-toggle"><span></span><span></span><span></span></button>
             <ul id="nav-menu">
                 <li><a href="#services">services</a></li>
                 <li><a href="#about">about</a></li>
+                <li><a href="#faq">faq</a></li>
                 <li><a href="#contact">contact</a></li>
             </ul>
         </nav>
     </header>
 
     <section id="home">
-        <div class="home-canvas-container">
-            <div id="home-canvas">
-                <div class="canvas-title-group">
-                    <h1 class="canvas-title">ADULT AND PEDIATRIC SPEECH THERAPY</h1>
-                    <p class="canvas-subtext">SERVING EAST LOS ANGELES AND THE SAN GABRIEL VALLEY</p>
-                    <p class="canvas-subtext telehealth-line">TELEHEALTH ALSO AVAILABLE</p>
-                </div>
+        <div class="home-image-side"></div>
+        <div class="home-content-side">
+            <div class="canvas-title-group">
+                <h1 class="canvas-title">ADULT AND PEDIATRIC SPEECH THERAPY</h1>
+                <p class="canvas-subtext">SERVING EAST LOS ANGELES AND THE SAN GABRIEL VALLEY</p>
+                <p class="canvas-subtext telehealth-line">TELEHEALTH ALSO AVAILABLE</p>
+            </div>
+            <div class="button-group">
                 <a href="#contact" class="canvas-btn">CONTACT US</a>
+                <a href="https://beaminghealth.com/providers/leslie-chen" target="_blank" class="canvas-btn">BOOK CONSULTATION</a>
             </div>
         </div>
     </section>
 
-    <button class="scroll-down-btn" aria-label="Scroll interaction button"></button>
+    <button class="scroll-down-btn"></button>
 
-    <section id="services"><div class="container"><h2>services</h2><p>Services content here...</p></div></section>
+    <section id="services">
+        <div class="container">
+            <h2>services</h2>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">Pediatric Speech Therapy <span>+</span></div>
+                    <div class="accordion-content">Our pediatric services focus on early intervention, articulation, and language development tailored to your child's unique needs.</div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">Adult Speech Rehabilitation <span>+</span></div>
+                    <div class="accordion-content">We provide comprehensive support for adults recovering from stroke, TBI, or managing degenerative conditions to improve communication and swallow function.</div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">Telehealth Services <span>+</span></div>
+                    <div class="accordion-content">Receive expert care from the comfort of your home. Our secure, HIPAA-compliant telehealth platform brings therapy directly to you.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="about"><div class="container"><h2>about</h2><p>About content here...</p></div></section>
+    
+    <section id="faq">
+        <div class="container">
+            <h2>faq</h2>
+            <div class="accordion-vertical">
+                <div class="accordion-item">
+                    <div class="accordion-header">How do I get started? <span>+</span></div>
+                    <div class="accordion-content">Contact us via the form below or email us directly, and we will schedule an initial consultation to discuss your needs.</div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">Do you accept insurance? <span>+</span></div>
+                    <div class="accordion-content">We are currently in-network with several major providers. Please contact us with your insurance details for a verification of benefits.</div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">What ages do you serve? <span>+</span></div>
+                    <div class="accordion-content">We serve all ages, from early childhood pediatric developmental delays to adult rehabilitation.</div>
+                </div>
+            </div>
+        </div>
+    </section>
     
     <section id="contact">
         <div class="container">
@@ -161,71 +199,59 @@
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.getElementById('nav-menu');
-        const navLinks = document.querySelectorAll('#nav-menu a');
         const scrollBtn = document.querySelector('.scroll-down-btn');
-        const sections = Array.from(document.querySelectorAll('section'));
-        const homeSection = document.getElementById('home');
-
-        // Toggle Menu
-        function toggleMenu() {
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !isExpanded);
+        
+        menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
-        }
-        menuToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
-
-        // Scroll Logic with Up/Down state
-        scrollBtn.addEventListener('click', () => {
-            if (document.body.classList.contains('at-bottom')) {
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                // Scroll to next section
-                const nextSection = sections.find(section => section.offsetTop > (window.scrollY + 15));
-                if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth' });
-            }
         });
 
-        // Scroll listener for state tracking
-        window.addEventListener('scroll', () => {
-            // Header scroll state
-            if (window.scrollY > 20) document.body.classList.add('scrolled');
-            else document.body.classList.remove('scrolled');
-
-            // Bottom detection
-            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 25) {
-                document.body.classList.add('at-bottom');
-            } else {
-                document.body.classList.remove('at-bottom');
+        document.addEventListener('click', (event) => {
+            if (navMenu.classList.contains('active') && !navMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
             }
         });
+        
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isActive = content.classList.contains('active');
+                
+                document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('active'));
+                
+                if (!isActive) content.classList.add('active');
+            });
+        });
 
-        // Intersection Observer for home active state
-        const homeObserver = new IntersectionObserver((entries) => {
+        const sectionIds = ['home', 'services', 'about', 'faq', 'contact'];
+        let currentSectionIndex = 0;
+
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) document.body.classList.add('home-active');
-                else document.body.classList.remove('home-active');
+                if (entry.isIntersecting) {
+                    currentSectionIndex = sectionIds.indexOf(entry.target.id);
+                    if (currentSectionIndex === sectionIds.length - 1) {
+                        scrollBtn.classList.add('at-bottom');
+                    } else {
+                        scrollBtn.classList.remove('at-bottom');
+                    }
+                }
             });
-        }, { threshold: 0.01 });
-        homeObserver.observe(homeSection);
+        }, { threshold: 0.6 });
 
-        // Mobile touch logic
-        const applyMobileTouchAnimation = (elementsList) => {
-            elementsList.forEach(element => {
-                element.addEventListener('touchstart', () => element.classList.add('touch-active'), { passive: true });
-                const clear = () => setTimeout(() => element.classList.remove('touch-active'), 200);
-                element.addEventListener('touchend', clear);
-                element.addEventListener('touchcancel', clear);
-                element.addEventListener('click', clear);
-            });
-        };
-        applyMobileTouchAnimation([...navLinks, ...document.querySelectorAll('.canvas-btn'), scrollBtn]);
+        sectionIds.forEach(id => {
+            const section = document.getElementById(id);
+            if (section) observer.observe(section);
+        });
 
-        // Auto-close menu
-        navLinks.forEach(link => link.addEventListener('click', () => {
-            setTimeout(() => { menuToggle.classList.remove('active'); navMenu.classList.remove('active'); }, 200);
-        }));
+        scrollBtn.addEventListener('click', () => {
+            let nextIndex = (currentSectionIndex + 1) % sectionIds.length;
+            const nextSection = document.getElementById(sectionIds[nextIndex]);
+            if (nextSection) {
+                nextSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     </script>
 </body>
 </html>
