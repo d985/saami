@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>saami</title>
     
+    <link rel="icon" type="image/png" href="logo-icon.png">
+    
     <style>
-        /* Custom Font Declaration configured to use TTF format */
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
         @font-face {
             font-family: 'Latienne Swash T';
             src: url('fonts/latienne-swash-t-regular.ttf') format('truetype');
@@ -15,501 +18,87 @@
             font-display: swap;
         }
 
-        /* Reset defaults */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333333; min-height: 100vh; width: 100vw; display: flex; flex-direction: column; position: relative; background-color: #fef6eb; }
 
-        /* Enabled vertical scrolling and smooth anchor transitions */
-        html {
-            scroll-behavior: smooth;
-        }
+        header { width: 100%; height: 65px; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; z-index: 100; background-color: rgba(254, 246, 235, 0.7) !important; border-bottom: 1px solid rgba(233, 101, 88, 0.15); box-shadow: 0 4px 20px rgba(233, 101, 88, 0.05); backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; transition: box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #333333; 
-            min-height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            background-color: #fef6eb; /* Main solid background color for content scroll areas */
-        }
+        .header-logo { display: flex; align-items: center; }
+        .header-logo a, .header-center-logo a { display: flex; align-items: center; text-decoration: none; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease, visibility 0.25s ease; }
+        body.home-active .header-logo a.home-icon-link { opacity: 1; visibility: visible; pointer-events: auto; }
+        .header-center-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; z-index: 105; }
 
-        /* Header Bar: Fixed at the top, perfectly seamless with the background on the home view */
-        header {
-            width: 100%;
-            height: 65px; 
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between; 
-            align-items: center;
-            position: fixed; 
-            top: 0;
-            left: 0;
-            z-index: 100; 
-            background-color: #fef6eb; /* Matches the page background exactly */
-            box-shadow: none; /* Removed shadow on home view to make it completely flat */
-            transition: box-shadow 0.3s ease; /* Smooth transition when scrolling down */
-        }
-
-        /* Adds a subtle layout anchor shadow only when scrolled past the home view */
-        body.scrolled header {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Groups the main logo-icon on the left side */
-        .header-logo {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Prepares the logo anchor links for transition movement */
-        .header-logo a, .header-center-logo a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease, visibility 0.25s ease; 
-        }
-
-        /* Hides the header logo-icon strictly when the home view is active */
-        body.home-active .header-logo a.home-icon-link {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        /* Independent wrapper that locks logo1 exactly in the horizontal center of the header */
-        .header-center-logo {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            align-items: center;
-            z-index: 105;
-        }
-
-        /* Elevates the links up slightly on hover (Desktop only) */
         @media (min-width: 769px) {
-            .header-logo a:hover, .header-center-logo a:hover {
-                transform: translateY(-4px); 
-            }
+            .header-logo a:hover { transform: translateY(-4px); }
+            .header-center-logo a:hover { transform: translate(0, -4px); }
         }
 
-        /* Applied unified dimensions to both logo image assets on desktop views */
-        .header-logo img, .header-center-logo img {
-            height: 48px;
-            width: auto;
-            display: block;
-        }
+        .header-logo img, .header-center-logo img { height: 48px; width: auto; display: block; }
 
-        /* Mobile Menu Toggle Button */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 24px;
-            height: 18px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            z-index: 200; 
-        }
+        .menu-toggle { display: flex; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: transparent; border: none; cursor: pointer; z-index: 1000; }
+        .menu-toggle span { width: 100%; height: 2px; background-color: #e96558; border-radius: 2px; transition: all 0.3s ease; }
+        .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+        .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-44deg); }
 
-        .menu-toggle span {
-            width: 100%;
-            height: 2px;
-            background-color: #e96558;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
+        header nav { display: flex; align-items: center; }
+        header nav ul { list-style: none; display: flex; position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background-color: rgba(254, 246, 235, 0.98); flex-direction: column; justify-content: center; align-items: center; gap: 3.5rem; padding: 2rem; box-shadow: -10px 0 35px rgba(0, 0, 0, 0.08); transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999; }
+        header nav ul.active { right: 0 !important; }
+        header nav a { text-decoration: none; font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-size: 1.5rem; text-transform: lowercase; letter-spacing: 0.08em; font-weight: 700; position: relative; display: inline-block; padding-bottom: 8px; transition: color 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
+        header nav a:hover { color: #b83d31; transform: translateY(-3px); }
+        header nav a::after { content: ''; position: absolute; bottom: -5px; left: calc(50% - 3px); width: 6px; height: 6px; background-color: #ff99b8; border-radius: 50%; transform: scale(0); transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        header nav a:hover::after { transform: scale(1); }
 
-        header nav {
-            display: flex;
-            align-items: center;
-        }
+        section { min-height: 100vh; width: 100vw; padding: 100px 2rem 4rem 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 10; }
+        #home { overflow: hidden; background-color: #fef6eb; display: flex; align-items: center; justify-content: center; }
+        .home-canvas-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: flex; }
+        @media (min-width: 769px) { .home-canvas-container { padding: 0 4rem 0 4rem; } }
+        @media (max-width: 768px) { .home-canvas-container { padding: 0; } }
+        #home-canvas { width: 100%; height: 100%; background-image: url('background.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 8px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1.5rem; }
+        @media (min-width: 769px) { #home-canvas { padding: 85px 8rem 2rem 8rem; } }
+        .canvas-title-group { z-index: 5; position: relative; width: 100%; max-width: 850px; text-align: center; display: flex; flex-direction: column; gap: 0.75rem; }
+        .canvas-title { color: #ffffff; font-family: 'Josefin Sans', sans-serif; font-size: 2.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2; text-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 2px 5px rgba(0, 0, 0, 0.2); }
+        .canvas-subtext { color: #ffffff; font-family: 'Josefin Sans', sans-serif; font-size: 1.4rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; opacity: 0.95; text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2); }
+        .canvas-btn { z-index: 10; position: relative; display: inline-block; text-decoration: none; font-family: 'Josefin Sans', sans-serif; color: #ffffff; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 1rem 2.5rem; background-color: rgba(254, 246, 235, 0.15); border: 2px solid rgba(254, 246, 235, 0.6); border-radius: 30px; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease; }
+        .canvas-btn:hover { background-color: rgba(254, 246, 235, 0.35); border-color: rgba(254, 246, 235, 0.9); transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
+        .canvas-btn:active { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
 
-        header nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2.5rem;
-            transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-        }
+        /* SCROLL BUTTON */
+        .scroll-down-btn { position: fixed; bottom: 2rem; right: 2rem; width: 50px; height: 50px; background-color: rgba(254, 246, 235, 0.7); border: 1px solid rgba(233, 101, 88, 0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 90; box-shadow: 0 4px 15px rgba(233, 101, 88, 0.1); backdrop-filter: blur(5px); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease, box-shadow 0.3s ease; }
+        .scroll-down-btn::after { content: ''; width: 10px; height: 10px; border-right: 3px solid #e96558; border-bottom: 3px solid #e96558; transform: translateY(-2px) rotate(45deg); transition: transform 0.3s ease, border-color 0.3s ease; }
+        
+        /* UP ARROW STATE */
+        body.at-bottom .scroll-down-btn::after { transform: translateY(2px) rotate(-135deg); }
+        
+        .scroll-down-btn:hover { background-color: rgba(233, 101, 88, 0.1); border-color: rgba(233, 101, 88, 0.4); transform: translateY(4px); box-shadow: 0 6px 20px rgba(233, 101, 88, 0.15); }
 
-        /* --- Desktop Specific: Dynamic Home Hover Menu Logic --- */
-        @media (min-width: 769px) {
-            /* While home view is active, anchor the menu items dynamically near the bottom of the screen */
-            body.home-active header nav ul {
-                position: fixed;
-                left: 50%;
-                top: auto;
-                bottom: 8%; /* Placed consistently closer to the bottom boundary edge */
-                transform: translateX(-50%) translateY(15px); 
-                opacity: 0;
-                pointer-events: none;
-                gap: 3.5rem;
-                z-index: 110;
-                transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
-                            transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            }
+        .container { max-width: 800px; width: 100%; text-align: center; color: #2b2b2b; padding: 2rem; background-color: rgba(254, 246, 235, 0.65); border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); }
+        section h2 { font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-size: 2.5rem; margin-bottom: 1.5rem; text-transform: lowercase; letter-spacing: 0.04em; }
+        section p { font-size: 0.95rem; line-height: 1.8; color: #555555; margin-bottom: 1.5rem; }
 
-            /* INVISIBLE HOVER BRIDGE: Generates a seamless catch-zone between the logo-icon and the bottom menu */
-            body.home-active header nav::before {
-                content: '';
-                position: fixed;
-                left: 50%;
-                transform: translateX(-50%);
-                top: 20vh;          /* Extends high enough to meet the bottom area of the large logo */
-                bottom: 0;          /* Stretches to the floor of the viewport */
-                width: 60vw;        /* Broad hit area to easily capture natural downward mouse sweeps */
-                z-index: 109;       /* Sits just behind the interactive menu text list */
-                pointer-events: none;
-            }
+        form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; margin: 0 auto; text-align: left; }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        form label { font-family: 'Latienne Swash T', Georgia, serif; color: #e96558; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.05em; }
+        form input, form textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid rgba(233, 101, 88, 0.3); border-radius: 6px; background-color: #ffffff; font-family: inherit; font-size: 1rem; color: #333333; transition: border-color 0.2s ease; }
+        form input:focus, form textarea:focus { outline: none; border-color: #e96558; }
+        form textarea { resize: vertical; min-height: 120px; }
+        form button { background-color: #e96558; color: #ffffff; border: none; padding: 0.85rem 2rem; font-family: 'Latienne Swash T', Georgia, serif; font-size: 1.1rem; font-weight: 700; border-radius: 6px; cursor: pointer; align-self: flex-start; transition: background-color 0.2s ease, transform 0.1s ease; }
+        form button:hover { background-color: #b83d31; }
+        form button:active { transform: scale(0.98); }
 
-            /* Activating the hit zone pointer-events only when the logo is engaged */
-            body.home-active.logo-hovered header nav::before,
-            body.home-active header nav:hover::before {
-                pointer-events: auto;
-            }
-
-            /* Reveal options instantly when body state maps center image hover or menu navigation interaction */
-            body.home-active.logo-hovered header nav ul,
-            body.home-active header nav:hover ul {
-                opacity: 1;
-                pointer-events: auto;
-                transform: translateX(-50%) translateY(0); 
-            }
-        }
-
-        /* Navigation links reverted back to your signature terracotta red */
-        header nav a {
-            text-decoration: none;
-            font-family: 'Latienne Swash T', Georgia, serif; 
-            color: #e96558;
-            font-size: 1rem; 
-            text-transform: lowercase;
-            letter-spacing: 0.08em;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 8px; 
-            transition: color 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        /* Desktop specific text lifting rules */
-        @media (min-width: 769px) {
-            header nav a:hover {
-                color: #b83d31; 
-                transform: translateY(-3px); 
-            }
-        }
-
-        /* Hidden circle created underneath each menu element */
-        header nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px; 
-            left: calc(50% - 3px); 
-            width: 6px;
-            height: 6px;
-            background-color: #ff99b8; 
-            border-radius: 50%; 
-            transform: scale(0); 
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-        }
-
-        /* Animates scale expansion on hover state */
-        header nav a:hover::after {
-            transform: scale(1);
-        }
-
-        /* --- Section Containers --- */
-        section {
-            min-height: 100vh;
-            width: 100vw;
-            padding: 100px 2rem 4rem 2rem; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* --- Home Section Image Configuration --- */
-        #home {
-            overflow: hidden;
-            background-color: #fef6eb; 
-        }
-
-        /* Pinned background layer layout controls */
-        .home-bg-stack {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5; 
-            display: flex;
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center;
-            padding: 15px 2rem 5rem 2rem; 
-        }
-
-        /* Desktop view modification: Push layout downward away from the fixed header */
-        @media (min-width: 769px) {
-            .home-bg-stack {
-                justify-content: flex-start; /* Aligns content to the top instead of the exact vertical center */
-                padding-top: 120px; /* Generates explicit, clean breathing space below the header */
-            }
-        }
-
-        /* Universal baseline controls with horizontal breathing padding for the logo */
-        .home-bg-stack img {
-            max-width: 95%;
-            object-fit: contain; 
-            display: block;
-            padding: 1rem 2rem;
-        }
-
-        /* Expanded layout limits to make center graphic substantially larger on desktop viewports */
-        .home-bg-stack img.bg-image-bottom {
-            flex: 1; 
-            height: 100%; 
-            max-height: 68vh; 
-            cursor: pointer; 
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        /* Subtle interactive accent response when hovering over the central element */
-        @media (min-width: 769px) {
-            .home-bg-stack img.bg-image-bottom:hover {
-                transform: scale(1.015);
-            }
-        }
-
-        /* Floating Down Arrow Button positioned in the lower right corner */
-        .scroll-down-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
-            background-color: #e96558;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 90;
-            box-shadow: 0 4px 15px rgba(233, 101, 88, 0.2);
-            transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
-            text-decoration: none;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        /* Only make the arrow button visible when we are strictly in the home view */
-        body.home-active .scroll-down-btn {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Clean CSS Chevron Arrow */
-        .scroll-down-btn::after {
-            content: '';
-            width: 12px;
-            height: 12px;
-            border-right: 3px solid #ffffff;
-            border-bottom: 3px solid #ffffff;
-            transform: translateY(-2px) rotate(45deg);
-        }
-
-        .scroll-down-btn:hover {
-            background-color: #b83d31;
-            transform: translateY(3px);
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-            color: #2b2b2b;
-            padding: 2rem;
-            background-color: rgba(254, 246, 235, 0.65); 
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-        }
-
-        section h2 {
-            font-family: 'Latienne Swash T', Georgia, serif;
-            color: #e96558;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            text-transform: lowercase;
-            letter-spacing: 0.04em;
-        }
-
-        section p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #555555;
-            margin-bottom: 1.5rem;
-        }
-
-        /* --- Contact Form Styling --- */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            max-width: 500px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-
-        form label {
-            font-family: 'Latienne Swash T', Georgia, serif;
-            color: #e96558;
-            font-weight: 700;
-            font-size: 0.95rem;
-            letter-spacing: 0.05em;
-        }
-
-        form input, form textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid rgba(233, 101, 88, 0.3);
-            border-radius: 6px;
-            background-color: #ffffff;
-            font-family: inherit;
-            font-size: 1rem;
-            color: #333333;
-            transition: border-color 0.2s ease;
-        }
-
-        form input:focus, form textarea:focus {
-            outline: none;
-            border-color: #e96558; 
-        }
-
-        form textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        form button {
-            background-color: #e96558;
-            color: #ffffff;
-            border: none;
-            padding: 0.85rem 2rem;
-            font-family: 'Latienne Swash T', Georgia, serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 6px;
-            cursor: pointer;
-            align-self: flex-start;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
-
-        form button:hover {
-            background-color: #b83d31;
-        }
-
-        form button:active {
-            transform: scale(0.98);
-        }
-
-        /* --- Responsive Mobile Breakpoint Settings --- */
         @media (max-width: 768px) {
-            header {
-                height: 80px; 
-                padding: 0 1rem; 
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .header-logo {
-                position: static;
-            }
-
-            /* Keeps centering functional across compressed mobile viewports */
-            .header-center-logo {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
-
-            .header-logo img, .header-center-logo img {
-                height: 40px !important;
-            }
-
-            .menu-toggle {
-                display: flex;
-                z-index: 200; 
-            }
-
-            header nav ul {
-                position: fixed;
-                top: 0;
-                right: -100%; 
-                width: 75%;
-                max-width: 300px;
-                height: 100vh;
-                background-color: rgba(254, 246, 235, 0.98); /* Returned drawer to cream base */
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 3rem;
-                padding: 2rem;
-                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.08);
-                transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-                z-index: 999; 
-            }
-
-            header nav ul.active {
-                right: 0;
-            }
-
-            header nav a {
-                font-size: 1.4rem; 
-                display: block; 
-            }
-
-            .scroll-down-btn {
-                bottom: 1.5rem;
-                right: 1.5rem;
-                width: 44px;
-                height: 44px;
-            }
-
-            /* --- MOBILE TOUCH ANIMATION RULES --- */
-            .header-logo a.touch-active,
-            .header-center-logo a.touch-active,
-            header nav a.touch-active {
-                transform: translateY(-5px) !important;
-            }
-
-            .menu-toggle.active span:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            .menu-toggle.active span:nth-child(2) {
-                opacity: 0;
-                transform: translateX(-10px);
-            }
-            .menu-toggle.active span:nth-child(3) {
-                transform: translateY(-8px) rotate(-44deg);
-            }
+            header { height: 80px; padding: 0 1rem; }
+            .header-logo img, .header-center-logo img { height: 40px !important; }
+            header nav ul { width: 75%; max-width: 300px; }
+            #home-canvas { border-radius: 0; padding: 80px 1.5rem 2rem 1.5rem; gap: 1.25rem; }
+            .canvas-title { font-size: 1.7rem; padding: 0 0.5rem; }
+            .canvas-subtext { font-size: 1.05rem; padding: 0 0.5rem; }
+            .canvas-btn { font-size: 1rem; padding: 0.85rem 2rem; }
+            .scroll-down-btn { bottom: 1.5rem; right: 1.5rem; width: 44px; height: 44px; }
+            .header-logo a.touch-active, header nav a.touch-active, .canvas-btn.touch-active, .scroll-down-btn.touch-active { transform: translateY(-5px) !important; }
+            .header-center-logo a.touch-active { transform: translate(0, -5px) !important; }
+            .scroll-down-btn.touch-active { transform: translateY(4px) !important; }
         }
     </style>
 </head>
@@ -519,74 +108,45 @@
         <div class="header-logo">
             <a href="#home" class="home-icon-link"><img src="logo-icon.png" alt="Home"></a>
         </div>
-        
         <div class="header-center-logo">
             <a href="#home" class="logo1-link"><img src="logo1.png" alt="Logo 1"></a>
         </div>
-        
         <nav>
-            <button class="menu-toggle" aria-label="Toggle Navigation menu">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="menu-toggle" aria-label="Toggle Navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span><span></span><span></span>
             </button>
-            
             <ul id="nav-menu">
-                <li><a href="#about">about</a></li>
                 <li><a href="#services">services</a></li>
+                <li><a href="#about">about</a></li>
                 <li><a href="#contact">contact</a></li>
             </ul>
         </nav>
     </header>
 
     <section id="home">
-        <div class="home-bg-stack">
-            <img src="logo-icon.png" alt="Logo Icon Background" class="bg-image-bottom" id="center-home-logo">
+        <div class="home-canvas-container">
+            <div id="home-canvas">
+                <div class="canvas-title-group">
+                    <h1 class="canvas-title">ADULT AND PEDIATRIC SPEECH THERAPY</h1>
+                    <p class="canvas-subtext">SERVING EAST LOS ANGELES AND THE SAN GABRIEL VALLEY</p>
+                </div>
+                <a href="#contact" class="canvas-btn">CONTACT US</a>
+            </div>
         </div>
     </section>
 
-    <a href="#about" class="scroll-down-btn" aria-label="Scroll down to next section"></a>
+    <button class="scroll-down-btn" aria-label="Scroll interaction button"></button>
 
-    <section id="about">
-        <div class="container">
-            <h2>about</h2>
-            <p>This is your profile section. Use this clean layout panel to describe your mission, your story, your professional history, or your organization's unique narrative structure.</p>
-        </div>
-    </section>
-
-    <section id="services">
-        <div class="container">
-            <h2>services</h2>
-            <p>Detail everything your business or studio provides right here. The transparent glassmorphic backgrounds guarantee optimal text visibility across light, detailed desktop wallpapers.</p>
-        </div>
-    </section>
-
+    <section id="services"><div class="container"><h2>services</h2><p>Services content here...</p></div></section>
+    <section id="about"><div class="container"><h2>about</h2><p>About content here...</p></div></section>
+    
     <section id="contact">
         <div class="container">
             <h2>contact</h2>
-            <p>Have questions or ready to get started? Send us a line directly through the workspace pipeline below.</p>
-            
             <form action="#" method="POST">
-                <div class="form-group">
-                    <label for="name">name</label>
-                    <input type="text" id="name" name="name" required placeholder="your name">
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">email</label>
-                    <input type="email" id="email" name="email" required placeholder="your email address">
-                </div>
-                
-                <div class="form-group">
-                    <label for="message">message</label>
-                    <textarea id="message" name="message" required placeholder="how can we help you?"></textarea>
-                </div>
-                
-                <div class="form-group" style="display: none !important;">
-                    <label for="honeypot">Leave this empty</label>
-                    <input type="text" id="honeypot" name="honeypot" autocomplete="off">
-                </div>
-                
+                <div class="form-group"><label for="name">name</label><input type="text" id="name" name="name" required></div>
+                <div class="form-group"><label for="email">email</label><input type="email" id="email" name="email" required></div>
+                <div class="form-group"><label for="message">message</label><textarea id="message" name="message" required></textarea></div>
                 <button type="submit">submit</button>
             </form>
         </div>
@@ -596,115 +156,70 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.getElementById('nav-menu');
         const navLinks = document.querySelectorAll('#nav-menu a');
-        const logoLinks = document.querySelectorAll('.header-logo a, .header-center-logo a');
+        const scrollBtn = document.querySelector('.scroll-down-btn');
+        const sections = Array.from(document.querySelectorAll('section'));
         const homeSection = document.getElementById('home');
-        const centerHomeLogo = document.getElementById('center-home-logo');
 
-        // Handles JavaScript tracking hooks mapping large logo hover behaviors directly into body element flags
-        if (centerHomeLogo) {
-            centerHomeLogo.addEventListener('mouseenter', () => {
-                document.body.classList.add('logo-hovered');
-            });
-            centerHomeLogo.addEventListener('mouseleave', () => {
-                document.body.classList.remove('logo-hovered');
-            });
-
-            // MOBILE ONLY: Clicking the central logo opens/toggles the menu drawer
-            centerHomeLogo.addEventListener('click', (event) => {
-                if (window.innerWidth <= 768) {
-                    event.stopPropagation(); // Prevents instant closing triggers
-                    menuToggle.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                }
-            });
-        }
-
-        // Forces index scroll back to absolute top layout boundaries on explicit system initialization
-        window.addEventListener('DOMContentLoaded', () => {
-            if (!window.location.hash) {
-                window.scrollTo(0, 0);
-            }
-        });
-
-        // Handles conditional header shadow updates on user page scrolling
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                document.body.classList.add('scrolled');
-            } else {
-                document.body.classList.remove('scrolled');
-            }
-        });
-
-        // Intersection Observer handles contextual hiding of the header's logo-icon and scroll-down arrow toggle
-        const observerOptions = {
-            root: null,
-            threshold: 0.01 
-        };
-
-        const homeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    document.body.classList.add('home-active');
-                } else {
-                    document.body.classList.remove('home-active');
-                    document.body.classList.remove('logo-hovered'); // Failsafe clearing
-                }
-            });
-        }, observerOptions);
-
-        homeObserver.observe(homeSection);
-
-        // Toggle mobile drawer layout on hamburger click
-        menuToggle.addEventListener('click', (event) => {
-            event.stopPropagation(); 
+        // Toggle Menu
+        function toggleMenu() {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
-        });
+        }
+        menuToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
 
-        // Helper function to bundle mobile feedback touch animations with an active stay delay
-        const applyMobileTouchAnimation = (elementsList) => {
-            elementsList.forEach(element => {
-                element.addEventListener('touchstart', () => {
-                    element.classList.add('touch-active');
-                }, { passive: true });
-
-                const clearLiftWithDelay = () => {
-                    setTimeout(() => {
-                        element.classList.remove('touch-active');
-                    }, 200); 
-                };
-
-                element.addEventListener('touchend', clearLiftWithDelay);
-                element.addEventListener('touchcancel', clearLiftWithDelay);
-                element.addEventListener('click', clearLiftWithDelay);
-            });
-        };
-
-        applyMobileTouchAnimation(navLinks);
-        applyMobileTouchAnimation(logoLinks);
-
-        // Auto-close menu drawer when clicking a link option
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                setTimeout(() => {
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                }, 200);
-            });
-        });
-
-        // Closes menu on any viewport click outside navigation elements
-        document.addEventListener('click', (event) => {
-            const isClickInsideMenu = navMenu.contains(event.target);
-            const isClickInsideToggle = menuToggle.contains(event.target);
-            const isClickLogo = centerHomeLogo && centerHomeLogo.contains(event.target);
-            
-            if (navMenu.classList.contains('active') && !isClickInsideMenu && !isClickInsideToggle && !isClickLogo) {
-                menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
+        // Scroll Logic with Up/Down state
+        scrollBtn.addEventListener('click', () => {
+            if (document.body.classList.contains('at-bottom')) {
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                // Scroll to next section
+                const nextSection = sections.find(section => section.offsetTop > (window.scrollY + 15));
+                if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth' });
             }
         });
-    </script>
 
+        // Scroll listener for state tracking
+        window.addEventListener('scroll', () => {
+            // Header scroll state
+            if (window.scrollY > 20) document.body.classList.add('scrolled');
+            else document.body.classList.remove('scrolled');
+
+            // Bottom detection
+            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 25) {
+                document.body.classList.add('at-bottom');
+            } else {
+                document.body.classList.remove('at-bottom');
+            }
+        });
+
+        // Intersection Observer for home active state
+        const homeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) document.body.classList.add('home-active');
+                else document.body.classList.remove('home-active');
+            });
+        }, { threshold: 0.01 });
+        homeObserver.observe(homeSection);
+
+        // Mobile touch logic
+        const applyMobileTouchAnimation = (elementsList) => {
+            elementsList.forEach(element => {
+                element.addEventListener('touchstart', () => element.classList.add('touch-active'), { passive: true });
+                const clear = () => setTimeout(() => element.classList.remove('touch-active'), 200);
+                element.addEventListener('touchend', clear);
+                element.addEventListener('touchcancel', clear);
+                element.addEventListener('click', clear);
+            });
+        };
+        applyMobileTouchAnimation([...navLinks, ...document.querySelectorAll('.canvas-btn'), scrollBtn]);
+
+        // Auto-close menu
+        navLinks.forEach(link => link.addEventListener('click', () => {
+            setTimeout(() => { menuToggle.classList.remove('active'); navMenu.classList.remove('active'); }, 200);
+        }));
+    </script>
 </body>
 </html>
