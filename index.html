@@ -6,19 +6,32 @@
     <title>SAAMI Speech Therapy | Adult &amp; Pediatric SLP in East LA &amp; San Gabriel Valley</title>
     <meta name="description" content="SAAMI Speech Therapy provides evidence-based adult and pediatric speech-language pathology services in East Los Angeles and the San Gabriel Valley, including aphasia, dysarthria, swallowing, articulation, and early intervention. In network with Cigna, Blue Shield, and UnitedHealthcare.">
 
+    <link rel="canonical" href="https://www.saamispeech.com/">
+
     <!-- Open Graph -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SAAMI Speech Therapy">
+    <meta property="og:locale" content="en_US">
     <meta property="og:title" content="SAAMI Speech Therapy | Adult & Pediatric SLP in East LA & San Gabriel Valley">
     <meta property="og:description" content="Evidence-based, relationship-centered speech therapy for adults and children. Serving East Los Angeles and the San Gabriel Valley.">
-    <meta property="og:image" content="logo1.png">
-    <meta property="og:url" content="https://www.saamispeech.com">
+    <meta property="og:image" content="https://www.saamispeech.com/logo1.png">
+    <meta property="og:image:width" content="3284">
+    <meta property="og:image:height" content="745">
+    <meta property="og:image:alt" content="SAAMI Speech Therapy Logo">
+    <meta property="og:url" content="https://www.saamispeech.com/">
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SAAMI Speech Therapy | Adult & Pediatric SLP in East LA & San Gabriel Valley">
+    <meta name="twitter:description" content="Evidence-based, relationship-centered speech therapy for adults and children. Serving East Los Angeles and the San Gabriel Valley.">
+    <meta name="twitter:image" content="https://www.saamispeech.com/logo1.png">
+    <meta name="twitter:image:alt" content="SAAMI Speech Therapy Logo">
 
     <link rel="icon" type="image/png" href="logo-icon.png">
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
     <link rel="llms.txt" href="/llms.txt">
 
-    <!-- Preload custom display font to reduce flash of unstyled text -->
+    <!-- Preload custom display font -->
     <link rel="preload" href="fonts/latienne-swash-t-regular.ttf" as="font" type="font/ttf" crossorigin>
 
     <!-- Structured data for local search -->
@@ -27,10 +40,40 @@
         "@context": "https://schema.org",
         "@type": "MedicalBusiness",
         "name": "SAAMI Speech Therapy",
+        "url": "https://www.saamispeech.com/",
+        "logo": "https://www.saamispeech.com/logo1.png",
+        "image": "https://www.saamispeech.com/headshot.jpg",
         "description": "Adult and pediatric speech-language pathology services, including aphasia, dysarthria, swallowing, articulation, and early intervention therapy.",
-        "areaServed": ["East Los Angeles", "San Gabriel Valley"],
         "email": "hello@saamispeech.com",
         "medicalSpecialty": "Speech-Language Pathology",
+        "priceRange": "$$",
+        "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "CA",
+            "addressCountry": "US"
+        },
+        "areaServed": [
+            { "@type": "AdministrativeArea", "name": "East Los Angeles" },
+            { "@type": "AdministrativeArea", "name": "San Gabriel Valley" },
+            { "@type": "City", "name": "Pasadena" },
+            { "@type": "City", "name": "Alhambra" },
+            { "@type": "City", "name": "Monterey Park" },
+            { "@type": "City", "name": "Arcadia" },
+            { "@type": "City", "name": "San Marino" },
+            { "@type": "State", "name": "California" }
+        ],
+        "availableService": [
+            {
+                "@type": "MedicalTherapy",
+                "name": "Adult Speech Therapy",
+                "description": "Evidence-based therapy for cognitive-linguistic skills, speech, aphasia, swallowing, AAC, voice, and SPEAK OUT!® for Parkinson's."
+            },
+            {
+                "@type": "MedicalTherapy",
+                "name": "Pediatric Speech Therapy",
+                "description": "Early intervention, parent coaching, expressive and receptive speech delays, and articulation disorders."
+            }
+        ],
         "employee": {
             "@type": "Person",
             "name": "Leslie Chen",
@@ -236,8 +279,8 @@
 
     <header>
         <div class="logo-group">
-            <div class="header-logo"><a href="#home"><img src="logo-icon.png" alt="SAAMI Speech Therapy icon"></a></div>
-            <div class="header-main-logo"><a href="#home"><img src="logo1.png" alt="SAAMI Speech Therapy"></a></div>
+            <div class="header-logo"><a href="#home"><img src="logo-icon.png" alt="SAAMI Speech Therapy icon" width="55" height="55"></a></div>
+            <div class="header-main-logo"><a href="#home"><img src="logo1.png" alt="SAAMI Speech Therapy" width="242" height="55"></a></div>
         </div>
         <nav aria-label="Main navigation">
             <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu"><span></span><span></span><span></span></button>
@@ -323,7 +366,7 @@
             <h2>about</h2>
             <div class="about-text-box">
                 <div class="about-profile">
-                    <img src="headshot.jpg" alt="Leslie Chen, speech-language pathologist" class="about-image">
+                    <img src="headshot.jpg" alt="Leslie Chen, speech-language pathologist" class="about-image" width="220" height="260" loading="lazy">
                     <div class="about-bio">
                         <p style="font-family: 'Latienne Swash T', Georgia, serif; font-size: 1.8rem; color: #cf4f42; font-weight: 700; margin-bottom: 1rem;">Leslie Chen, M.A., CCC-SLP</p>
                         <p style="margin-bottom: 1rem;">Hi! I'm Leslie and I've had experience in a variety of settings (acute rehabilitation, neuro outpatient, pediatric outpatient, acute care/inpatient, preschool and elementary schools). My favorite activity is hearing from clients about what they would like to get back to (e.g., playing mahjong again, saying "I love you" to their partner, or simply being loud enough to order their Starbucks again) and tailoring an evidence-based treatment plan to achieve their goals.</p>
