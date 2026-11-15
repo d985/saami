@@ -160,7 +160,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: auto; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333333; min-height: 100vh; background-color: #fef6eb; overflow-x: hidden; width: 100%; }
 
         /* Visible keyboard focus for accessibility */
@@ -184,18 +184,19 @@
         .header-main-logo { margin-top: 8px; }
         .header-main-logo img { height: 55px; width: auto; display: block; }
 
-        /* Navigation */
-        .menu-toggle { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: transparent; border: none; cursor: pointer; }
-        .menu-toggle span { width: 100%; height: 2px; background-color: #e96558; border-radius: 2px; transition: all 0.3s ease; }
-        .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .menu-toggle.active span:nth-child(2) { opacity: 0; }
-        .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-44deg); }
-
-        header nav ul { list-style: none; display: flex; gap: 2rem; }
-        header nav a { text-decoration: none; font-family: 'Latienne Swash T', Georgia, serif; color: #cf4f42; font-size: 1.2rem; text-transform: lowercase; font-weight: 700; transition: color 0.2s ease; position: relative; }
-        header nav a:hover, header nav a.active { color: #b83d31; }
-        header nav a::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%) scale(0); width: 6px; height: 6px; background-color: #ff99b8; border-radius: 50%; transition: transform 0.2s ease; }
-        header nav a:hover::after, header nav a:active::after, header nav a.active::after { transform: translateX(-50%) scale(1); }
+        /* Floating Right-Side Dot Navigation */
+        .floating-nav { position: fixed; right: 1.25rem; top: 50%; transform: translateY(-50%); z-index: 150; }
+        .floating-nav ul { list-style: none; display: flex; flex-direction: column; align-items: flex-end; gap: 0.7rem; margin: 0; padding: 0.75rem 0.65rem; border-radius: 12px; background-color: transparent; border: 1px solid transparent; transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease; }
+        .floating-nav ul:hover { padding: 0.75rem 0.85rem 0.75rem 1.2rem; background-color: rgba(254, 246, 235, 0.7); border-color: rgba(233, 101, 88, 0.15); box-shadow: 0 4px 20px rgba(233, 101, 88, 0.05); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+        .floating-nav li { display: flex; justify-content: flex-end; }
+        .floating-nav a { display: inline-flex; align-items: center; justify-content: flex-end; text-decoration: none; padding: 0.15rem 0; position: relative; }
+        .floating-nav .nav-label { font-family: 'Latienne Swash T', Georgia, serif; color: rgba(207, 79, 66, 0.8); font-size: 1.15rem; text-transform: lowercase; font-weight: 700; line-height: 1.1; max-width: 0; opacity: 0; overflow: hidden; margin-right: 0; transform: translateX(6px); pointer-events: none; transition: max-width 0.26s cubic-bezier(0.22, 1, 0.36, 1), margin-right 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, transform 0.22s ease, color 0.2s ease; white-space: nowrap; }
+        .floating-nav ul:hover .nav-label { max-width: 110px; margin-right: 0.75rem; opacity: 1; transform: translateX(0); pointer-events: auto; }
+        .floating-nav a.active .nav-label { color: #cf4f42; }
+        .floating-nav a:hover .nav-label, .floating-nav a:focus-visible .nav-label { color: #b83d31; }
+        .floating-nav .nav-dot { width: 10px; height: 10px; border-radius: 50%; background-color: #dcc7af; border: none; box-shadow: none; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease; flex-shrink: 0; }
+        .floating-nav a:hover .nav-dot, .floating-nav a:focus-visible .nav-dot { background-color: #e5aebc; transform: scale(1.15); }
+        .floating-nav a.active .nav-dot { background-color: #ff94b4; transform: scale(1.25); }
 
         /* HOME SPLIT LAYOUT */
         #home { display: flex; flex-direction: row-reverse; align-items: flex-start; height: calc(100vh - 90px); height: calc(100svh - 90px); min-height: 520px; margin-top: 90px; width: 100%; overflow: hidden; }
@@ -232,18 +233,8 @@
 
         .container { max-width: 1000px; width: 100%; text-align: center; color: #2b2b2b; padding: 4.5rem 2rem; margin: 0 auto; overflow-wrap: break-word; word-break: break-word; }
 
-        /* SECTION LAYOUT & DIVIDERS */
+        /* SECTION LAYOUT */
         section { width: 100%; position: relative; scroll-margin-top: 90px; }
-        section:not(:last-of-type)::after {
-            content: '';
-            display: block;
-            width: 90%;
-            height: 2px;
-            background: #ff99b8;
-            position: absolute;
-            bottom: 0;
-            left: 5%;
-        }
 
         section h2 { font-family: 'Latienne Swash T', Georgia, serif; color: #cf4f42; font-size: 2.5rem; margin-bottom: 2.5rem; text-transform: lowercase; overflow-wrap: break-word; word-break: break-word; }
 
@@ -283,7 +274,7 @@
         .contact-icon { width: 1.15rem; height: 1.15rem; flex-shrink: 0; color: #b83d31; }
 
         /* FOOTER & LEGAL */
-        footer { width: 100%; background-color: #fef6eb; padding: 3rem 2rem 4rem 2rem; border-top: 1px solid rgba(233, 101, 88, 0.15); text-align: center; font-family: 'Josefin Sans', sans-serif; color: #4d4d4d; }
+        footer { width: 100%; background-color: #fef6eb; padding: 3rem 2rem 4rem 2rem; text-align: center; font-family: 'Josefin Sans', sans-serif; color: #4d4d4d; }
         .footer-container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
         .footer-disclaimer, .footer-privacy { font-size: 0.85rem; line-height: 1.6; opacity: 0.9; }
         .footer-copy { font-size: 0.9rem; font-weight: 700; color: #b83d31; }
@@ -291,9 +282,8 @@
         /* Mobile Adjustments */
         @media (max-width: 768px) {
             header { height: 60px; padding: 0 1rem; }
-            .menu-toggle { display: flex; }
-            header nav ul { position: fixed; top: 0; right: -100%; width: 250px; height: 100vh; background-color: rgba(254, 246, 235, 0.98); flex-direction: column; justify-content: center; align-items: center; gap: 3.5rem; visibility: hidden; box-shadow: -8px 0 24px rgba(0, 0, 0, 0.08); transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s; z-index: 999; }
-            header nav ul.active { right: 0; visibility: visible; }
+            .floating-nav { right: 0.5rem; }
+            .floating-nav .nav-label { font-size: 1rem; }
             .header-main-logo { margin-top: 0; }
             .header-main-logo img { height: 35px; }
             .header-logo img { height: 35px; }
@@ -340,16 +330,16 @@
             <div class="header-logo"><a href="#home"><img src="logo-icon.png" alt="SAAMI Speech Therapy icon" width="55" height="55"></a></div>
             <div class="header-main-logo"><a href="#home"><img src="logo1.png" alt="SAAMI Speech Therapy" width="242" height="55"></a></div>
         </div>
-        <nav aria-label="Main navigation">
-            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu"><span></span><span></span><span></span></button>
-            <ul id="nav-menu">
-                <li><a href="#services">services</a></li>
-                <li><a href="#about">about</a></li>
-                <li><a href="#faq">faq</a></li>
-                <li><a href="#contact">contact</a></li>
-            </ul>
-        </nav>
     </header>
+    <nav class="floating-nav" aria-label="Main navigation">
+        <ul id="nav-menu">
+            <li><a href="#home" class="active" aria-current="true"><span class="nav-label">home</span><span class="nav-dot" aria-hidden="true"></span></a></li>
+            <li><a href="#services"><span class="nav-label">services</span><span class="nav-dot" aria-hidden="true"></span></a></li>
+            <li><a href="#about"><span class="nav-label">about</span><span class="nav-dot" aria-hidden="true"></span></a></li>
+            <li><a href="#faq"><span class="nav-label">faq</span><span class="nav-dot" aria-hidden="true"></span></a></li>
+            <li><a href="#contact"><span class="nav-label">contact</span><span class="nav-dot" aria-hidden="true"></span></a></li>
+        </ul>
+    </nav>
 
     <main id="main-content">
 
@@ -509,21 +499,111 @@
         document.getElementById('footer-year').textContent = new Date().getFullYear();
 
         const siteHeader = document.querySelector('header');
-        const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.getElementById('nav-menu');
-        const navLinks = document.querySelectorAll('header nav a');
+        const navLinks = document.querySelectorAll('#nav-menu a');
 
-        function getScrollBehavior() {
-            return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+        const mainContent = document.getElementById('main-content');
+        const siteFooter = document.querySelector('footer');
+        const sections = document.querySelectorAll('main section[id]');
+
+        const SPRING_A = 8.2;
+        const SPRING_W = 7.2;
+        function springRaw(p) {
+            return 1 - Math.exp(-SPRING_A * p) * (Math.cos(SPRING_W * p) + (SPRING_A / SPRING_W) * Math.sin(SPRING_W * p));
+        }
+        const SPRING_END = springRaw(1);
+        // First progress point where the underdamped spring crosses 1.0 before overshooting
+        const SPRING_CROSS_T = (Math.PI - Math.atan(SPRING_W / SPRING_A)) / SPRING_W;
+
+        let scrollRafId = null;
+        let isBounceScrolling = false;
+
+        function prefersReducedMotion() {
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         }
 
-        function closeNavMenu(restoreFocus = false) {
-            menuToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            if (restoreFocus) {
-                menuToggle.focus();
+        function getMaxScroll() {
+            return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        }
+
+        function setOvershootTransform(residual) {
+            const val = Math.abs(residual) > 0.25 ? `translate3d(0, ${(-residual).toFixed(2)}px, 0)` : '';
+            if (mainContent) mainContent.style.transform = val;
+            if (siteFooter) siteFooter.style.transform = val;
+        }
+
+        function cancelBounceScroll() {
+            if (scrollRafId !== null) {
+                cancelAnimationFrame(scrollRafId);
+                scrollRafId = null;
             }
+            isBounceScrolling = false;
+            setOvershootTransform(0);
+        }
+
+        function bounceScrollTo(targetY, duration = 580) {
+            const maxScroll = getMaxScroll();
+            const destY = Math.max(0, Math.min(targetY, maxScroll));
+
+            cancelBounceScroll();
+
+            if (prefersReducedMotion()) {
+                window.scrollTo(0, destY);
+                return;
+            }
+
+            const startY = window.scrollY;
+            const distance = destY - startY;
+            if (Math.abs(distance) < 2) {
+                window.scrollTo(0, destY);
+                return;
+            }
+
+            const absDist = Math.abs(distance);
+            const overshootScale = absDist > 520 ? 520 / absDist : 1;
+            let lastTime = null;
+            let elapsed = 0;
+            isBounceScrolling = true;
+
+            function step(now) {
+                if (lastTime === null) {
+                    lastTime = now;
+                } else {
+                    elapsed += Math.min(Math.max(0, now - lastTime), 50);
+                    lastTime = now;
+                }
+                const t = Math.min(1, elapsed / duration);
+                const normalized = springRaw(t) / SPRING_END;
+                const progress = t >= SPRING_CROSS_T
+                    ? 1 + (normalized - 1) * overshootScale
+                    : normalized;
+
+                const idealY = startY + distance * progress;
+                const currentMax = getMaxScroll();
+                const clampedY = Math.max(0, Math.min(idealY, currentMax));
+                const residual = idealY - clampedY;
+
+                window.scrollTo(0, clampedY);
+                setOvershootTransform(residual);
+
+                if (t < 1) {
+                    scrollRafId = requestAnimationFrame(step);
+                } else {
+                    scrollRafId = null;
+                    isBounceScrolling = false;
+                    setOvershootTransform(0);
+                    window.scrollTo(0, Math.max(0, Math.min(destY, getMaxScroll())));
+                }
+            }
+
+            scrollRafId = requestAnimationFrame(step);
+        }
+
+        function getSectionSnapY(sectionEl) {
+            cancelBounceScroll();
+            const headerH = siteHeader ? siteHeader.offsetHeight : 0;
+            const rawTop = sectionEl.getBoundingClientRect().top + window.scrollY - headerH;
+            return Math.max(0, Math.min(rawTop, getMaxScroll()));
         }
 
         // Subtle shadow boost once page scrolls past top
@@ -532,63 +612,82 @@
         }, { passive: true });
         siteHeader.classList.toggle('scrolled', window.scrollY > 10);
 
-        // Toggle Menu
-        menuToggle.addEventListener('click', () => {
-            const isActive = menuToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (event) => {
-            if (navMenu.classList.contains('active') && !navMenu.contains(event.target) && !menuToggle.contains(event.target)) {
-                closeNavMenu();
-            }
-        });
-
-        // Close menu on Escape key and return focus to toggle button
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && navMenu.classList.contains('active')) {
-                closeNavMenu(true);
-            }
-        });
-
-        // Close menu when clicking a link
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                closeNavMenu();
+        // Bounce-scroll to section when clicking nav dots or hero CTA button
+        document.querySelectorAll('#nav-menu a[href^="#"], .canvas-btn[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (!href || href === '#') return;
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+                if (navMenu && navMenu.contains(link)) {
+                    link.blur();
+                }
+                if (window.location.hash !== href) {
+                    history.pushState(null, '', href);
+                }
+                bounceScrollTo(getSectionSnapY(target));
             });
         });
 
-        // Scroll all the way to the top when clicking logo
+        if (navMenu) {
+            navMenu.addEventListener('mouseleave', () => {
+                if (document.activeElement && navMenu.contains(document.activeElement)) {
+                    document.activeElement.blur();
+                }
+            });
+        }
+
+        // Bounce-scroll all the way to the top when clicking logo
         document.querySelectorAll('.header-logo a, .header-main-logo a').forEach(logo => {
             logo.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: getScrollBehavior() });
+                bounceScrollTo(0);
             });
         });
 
-        // Highlight active section in top navigation
-        const sections = document.querySelectorAll('main section[id]');
-        if ('IntersectionObserver' in window && sections.length) {
-            const sectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.id;
-                        navLinks.forEach(link => {
-                            const isMatch = link.getAttribute('href') === `#${id}`;
-                            link.classList.toggle('active', isMatch);
-                            if (isMatch) {
-                                link.setAttribute('aria-current', 'true');
-                            } else {
-                                link.removeAttribute('aria-current');
-                            }
-                        });
+        // Allow manual wheel or touch scrolling to take over immediately during a link-click bounce
+        window.addEventListener('wheel', () => {
+            if (isBounceScrolling) cancelBounceScroll();
+        }, { passive: true });
+        window.addEventListener('touchstart', () => {
+            if (isBounceScrolling) cancelBounceScroll();
+        }, { passive: true });
+
+        // Highlight active section in floating right-side dot navigation
+        function updateActiveNavDot() {
+            if (!sections.length) return;
+            const scrollY = window.scrollY;
+            const maxScroll = getMaxScroll();
+            let activeId = sections[0].id;
+
+            if (scrollY <= 40) {
+                activeId = sections[0].id;
+            } else if (maxScroll > 0 && scrollY >= maxScroll - 20) {
+                activeId = sections[sections.length - 1].id;
+            } else {
+                const triggerLine = window.innerHeight * 0.38;
+                sections.forEach(section => {
+                    if (section.getBoundingClientRect().top <= triggerLine) {
+                        activeId = section.id;
                     }
                 });
-            }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-            sections.forEach(section => sectionObserver.observe(section));
+            }
+
+            navLinks.forEach(link => {
+                const isMatch = link.getAttribute('href') === `#${activeId}`;
+                link.classList.toggle('active', isMatch);
+                if (isMatch) {
+                    link.setAttribute('aria-current', 'true');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
         }
+
+        window.addEventListener('scroll', updateActiveNavDot, { passive: true });
+        window.addEventListener('resize', updateActiveNavDot, { passive: true });
+        updateActiveNavDot();
 
         // Accordion logic (multiple open, toggle +/minus), accessible via semantic headings and <button> elements
         document.querySelectorAll('.accordion-header').forEach(header => {
@@ -610,7 +709,7 @@
             });
         });
 
-        // Open a specific FAQ accordion item and scroll to it (used by the hero insurance link)
+        // Open a specific FAQ accordion item and bounce-scroll to it (used by the hero insurance link)
         function openAccordionTarget(hash) {
             if (!hash) return;
             const target = document.querySelector(hash);
@@ -623,7 +722,12 @@
                 header.setAttribute('aria-expanded', 'true');
                 if (span) span.textContent = '\u2212';
             }
-            target.scrollIntoView({ behavior: getScrollBehavior(), block: 'center' });
+            cancelBounceScroll();
+            const headerH = siteHeader ? siteHeader.offsetHeight : 0;
+            const targetRect = target.getBoundingClientRect();
+            const viewportUsable = Math.max(0, window.innerHeight - headerH);
+            const desiredTop = targetRect.top + window.scrollY - headerH - Math.max(32, viewportUsable * 0.18);
+            bounceScrollTo(desiredTop);
         }
 
         document.querySelectorAll('a[href^="#insurance-faq"]').forEach(link => {
