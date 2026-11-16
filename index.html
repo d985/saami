@@ -206,7 +206,7 @@
             .nav-kebab span { width: 5px; height: 5px; border-radius: 50%; background-color: #ff94b4; display: block; transition: background-color 0.2s ease; }
             .floating-nav.open .nav-kebab { background-color: rgba(254, 246, 235, 0.7); border-color: rgba(233, 101, 88, 0.15); }
             .floating-nav.open .nav-kebab span { background-color: #f47ca0; }
-            .floating-nav ul { position: absolute; top: 100%; right: 0; margin-top: 6px; padding: 0.75rem 0.85rem 0.75rem 1.2rem; background-color: rgba(254, 246, 235, 0.88); border-color: rgba(233, 101, 88, 0.15); box-shadow: 0 6px 24px rgba(233, 101, 88, 0.1); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-6px); transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s; }
+            .floating-nav ul { position: absolute; top: 100%; right: 0; margin-top: 6px; padding: 0.75rem 0.85rem 0.75rem 1.2rem; background-color: rgba(254, 246, 235, 0.88); border-color: rgba(233, 101, 88, 0.15); box-shadow: 0 6px 24px rgba(233, 101, 88, 0.1); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-6px); transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s; touch-action: none; }
             .floating-nav ul::before { content: ''; position: absolute; left: 0; right: 0; top: -8px; height: 8px; }
             .floating-nav a { padding: 0.35rem 0.2rem; }
             .floating-nav.open ul { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); padding: 0.75rem 0.85rem 0.75rem 1.2rem; background-color: rgba(254, 246, 235, 0.88); }
@@ -225,25 +225,14 @@
             max-height: 545px;
             min-height: 0;
             margin: 0 auto;
-            background-image: url('background.jpg');
+            background-image: url('background.png');
             background-image: image-set(
                 url('background.webp') type('image/webp'),
-                url('background.jpg') type('image/jpeg')
+                url('background.png') type('image/png')
             );
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center bottom;
-            mix-blend-mode: multiply;
-            filter: brightness(1.12) contrast(1.14);
-            opacity: 0.88;
-            -webkit-mask-image:
-                linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%),
-                linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%);
-            -webkit-mask-composite: source-in;
-            mask-image:
-                linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%),
-                linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%);
-            mask-composite: intersect;
             z-index: 1;
         }
         .home-content-side { position: relative; z-index: 2; order: 1; flex: 0 0 auto; width: 100%; max-width: 980px; height: auto; padding: 0; margin-bottom: clamp(0.45rem, 1.2vh, 1.15rem); background-color: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: clamp(0.7rem, 1.4vh, 0.95rem); overflow-wrap: break-word; word-break: break-word; }
@@ -694,6 +683,29 @@
         }
 
         let lastTouchTime = 0;
+        let lastDragHref = null;
+
+        function getNavLinkAtY(clientY) {
+            const links = Array.from(navLinks);
+            for (const link of links) {
+                const r = link.getBoundingClientRect();
+                if (clientY >= r.top && clientY <= r.bottom) {
+                    return link;
+                }
+            }
+            let best = null;
+            let bestDist = Infinity;
+            for (const link of links) {
+                const r = link.getBoundingClientRect();
+                const d = Math.abs(clientY - (r.top + r.bottom) / 2);
+                if (d < bestDist) {
+                    bestDist = d;
+                    best = link;
+                }
+            }
+            return best;
+        }
+
         if (navKebab && navContainer) {
             navContainer.addEventListener('touchstart', () => {
                 lastTouchTime = Date.now();
@@ -702,11 +714,13 @@
                 e.stopPropagation();
                 setNavDropdownOpen(!navContainer.classList.contains('open'));
             });
-            document.addEventListener('click', (e) => {
+            const closeOnOutside = (e) => {
                 if (navContainer.classList.contains('open') && !navContainer.contains(e.target)) {
                     setNavDropdownOpen(false);
                 }
-            });
+            };
+            document.addEventListener('click', closeOnOutside);
+            document.addEventListener('touchstart', closeOnOutside, { passive: true });
             navContainer.addEventListener('mouseenter', () => {
                 if (window.innerWidth <= 1120 && Date.now() - lastTouchTime > 500) {
                     setNavDropdownOpen(true);
@@ -736,9 +750,28 @@
                     document.activeElement.blur();
                 }
             });
+            navMenu.addEventListener('touchstart', () => {
+                lastDragHref = null;
+            }, { passive: true });
+            navMenu.addEventListener('touchmove', (e) => {
+                if (window.innerWidth <= 1120 && navContainer && !navContainer.classList.contains('open')) return;
+                if (!e.touches || !e.touches.length) return;
+                e.preventDefault();
+                const link = getNavLinkAtY(e.touches[0].clientY);
+                if (link) {
+                    const href = link.getAttribute('href');
+                    if (href !== lastDragHref) {
+                        lastDragHref = href;
+                        navigateToSection(link, true);
+                    }
+                }
+            }, { passive: false });
+            navMenu.addEventListener('touchend', () => {
+                lastDragHref = null;
+            }, { passive: true });
         }
 
-        // Bounce-scroll to section when hovering (after initial open) or clicking floating nav items
+        // Bounce-scroll to section when hovering (after initial open), dragging, or clicking floating nav items
         navLinks.forEach(link => {
             link.addEventListener('mouseenter', () => {
                 if (navHoverScrollArmed) {
@@ -750,7 +783,6 @@
                 if (navMenu && navMenu.contains(link)) {
                     link.blur();
                 }
-                setNavDropdownOpen(false);
                 navigateToSection(link, false);
             });
         });
