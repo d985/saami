@@ -659,11 +659,17 @@
             const target = document.querySelector(href);
             if (!target) return;
             const destY = getSectionSnapY(target);
-            if (window.location.hash !== href) {
+            const nextUrl = href === '#home'
+                ? (window.location.pathname + window.location.search)
+                : href;
+            const currentUrl = window.location.hash
+                ? window.location.hash
+                : (window.location.pathname + window.location.search);
+            if ((href === '#home' && window.location.hash !== '') || (href !== '#home' && currentUrl !== nextUrl)) {
                 if (useReplaceState) {
-                    history.replaceState(null, '', href);
+                    history.replaceState(null, '', nextUrl);
                 } else {
-                    history.pushState(null, '', href);
+                    history.pushState(null, '', nextUrl);
                 }
             }
             bounceScrollTo(destY);
@@ -794,12 +800,12 @@
             });
         });
 
-        // Bounce-scroll all the way to the top and update URL to #home when clicking logo
+        // Bounce-scroll all the way to the top and restore main URL when clicking logo
         document.querySelectorAll('.header-logo a, .header-main-logo a').forEach(logo => {
             logo.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (window.location.hash !== '#home') {
-                    history.pushState(null, '', '#home');
+                if (window.location.hash !== '') {
+                    history.pushState(null, '', window.location.pathname + window.location.search);
                 }
                 bounceScrollTo(0);
                 activeBounceTargetId = isBounceScrolling ? 'home' : null;
