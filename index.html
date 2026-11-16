@@ -772,6 +772,9 @@
                 }
             }, { passive: false });
             navMenu.addEventListener('touchend', () => {
+                if (lastDragHref && window.innerWidth <= 1120) {
+                    setNavDropdownOpen(false);
+                }
                 lastDragHref = null;
             }, { passive: true });
         }
@@ -788,6 +791,7 @@
                 if (navMenu && navMenu.contains(link)) {
                     link.blur();
                 }
+                setNavDropdownOpen(false);
                 navigateToSection(link, false);
             });
         });
