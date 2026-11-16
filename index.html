@@ -39,7 +39,7 @@
 
     <!-- Preload custom display font & hero background image to reduce FOUT & LCP -->
     <link rel="preload" href="fonts/latienne-swash-t-regular.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="background.webp" as="image" type="image/webp">
+    <link rel="preload" href="background.webp?v=3" as="image" type="image/webp">
 
     <!-- Structured data for local search -->
     <script type="application/ld+json">
@@ -226,15 +226,14 @@
             max-height: 545px;
             min-height: 0;
             margin: 0 auto;
-            background-image: url('background.png');
+            background-image: url('background.png?v=3');
             background-image: image-set(
-                url('background.webp') type('image/webp'),
-                url('background.png') type('image/png')
+                url('background.webp?v=3') type('image/webp'),
+                url('background.png?v=3') type('image/png')
             );
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center bottom;
-            filter: sepia(0.28) hue-rotate(-26deg) saturate(1.06);
             z-index: 1;
         }
         .home-content-side { position: relative; z-index: 2; order: 1; flex: 0 0 auto; width: 100%; max-width: 980px; height: auto; padding: 0; margin-bottom: clamp(0.45rem, 1.2vh, 1.15rem); background-color: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: clamp(0.7rem, 1.4vh, 0.95rem); overflow-wrap: break-word; word-break: break-word; }
@@ -326,7 +325,7 @@
             .canvas-btn { padding: 0.5rem 1.2rem; font-size: 0.8rem; }
 
             section { scroll-margin-top: 60px; min-height: calc(100vh - 60px); min-height: calc(100dvh - 60px); display: flex; flex-direction: column; justify-content: center; }
-            #home { flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; height: auto; min-height: calc(100vh - 60px); min-height: calc(100dvh - 60px); margin-top: 60px; padding: 1.5rem 1.25rem; overflow: visible; }
+            #home { flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; height: auto; min-height: calc(100vh - 60px); min-height: calc(100lvh - 60px); margin-top: 60px; padding: 1.5rem 1.25rem; overflow: visible; }
             .home-image-side { position: relative; left: auto; bottom: auto; transform: none; flex: none; aspect-ratio: 900 / 502; max-width: 520px; max-height: 38svh; width: 100%; height: auto; min-height: 0; flex-shrink: 0; order: 2; margin: 0; background-position: center; }
             .home-content-side { transform: none; width: 100%; flex: none; padding: 0; margin-bottom: 0; align-items: center; text-align: center; justify-content: center; order: 1; background-color: #fef6eb; gap: 1.25rem; }
             .canvas-title-group { text-align: center; align-items: center; gap: 0.75rem; }
