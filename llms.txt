@@ -1,6 +1,6 @@
 # SAAMI Speech Therapy
 
-> Adult and pediatric speech-language pathology practice led by Leslie Chen, M.A., CCC-SLP, serving East Los Angeles and the San Gabriel Valley, California. Provides evidence-based, relationship-centered therapy in person and offers a free initial consultation call.
+> Adult and pediatric speech-language pathology practice led by Leslie Chen, M.A., CCC-SLP, serving East Los Angeles and the San Gabriel Valley, California. Provides evidence-based, relationship-centered therapy in person and via telehealth across California, and offers a free initial consultation call.
 
 ## About
 
@@ -30,7 +30,7 @@ In network with: Cigna, Blue Shield of California, UMR, United Healthcare, and S
 
 - Email: hello@saamispeech.com
 - Booking / consultation: https://beaminghealth.com/providers/leslie-chen
-- Service area: East Los Angeles and the San Gabriel Valley, California
+- Service area: San Gabriel Valley and East Los Angeles, California (in-person), and telehealth across California
 
 ## Notes for AI agents
 
